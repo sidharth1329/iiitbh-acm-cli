@@ -610,221 +610,6 @@
                 }
                 eval("goosh.module." + name + ".prototype = new goosh.module." + base + ";goosh.modobj." + name + " = new goosh.module." + name + ';goosh.modules.list["' + name + '"] = goosh.modobj.' + name + ";")
             };
-            goosh.module.web = function () {
-                this.name = "web";
-                this.aliases = new Array("web", "search", "s", "w");
-                this.mode = true;
-                this.start = 0;
-                this.args = "http://periwinklesnow.wordpress.com/";
-                this.parameters = "[keywords]";
-                this.help = "google web search";
-                this.helptext = "<span class='info'>examples:</span><br/><i>web foo bar</i>  - searches the web for &quot;foo bar&quot;<br/>";
-                this.query = function (A, B) {
-                    goosh.ajax.query("http://ajax.googleapis.com/ajax/services/search/" + A + "?v=1.0&start=" + this.qstart + "&hl=" + goosh.config.lang + "&callback=goosh.modobj." + this.name + ".render&q=" + encodeURIComponent(B) + "&key=" + goosh.config.apikey + "&rsz=large")
-                };
-                this.renderResult = function (E, D, G, C, H) {
-                    var B = "";
-                    var A = this.start;
-                    B += "<table border='0'>";
-                    for (i = this.start; i < (this.start + parseInt(goosh.config.numres)); i++) {
-                        if (this.results[i]) {
-                            var F = this.results[i];
-                            A++;
-                            goosh.config.urls[A] = F.unescapedUrl;
-                            F.unescapedUrl = F.unescapedUrl.replace(/"/g, "&quot;");
-                            B += "<tr>";
-                            B += "<td valign='top' class='less'>&nbsp;&nbsp;" + A + ")&nbsp;</td>";
-                            B += "<td>";
-                            B += '<a href="' + F.unescapedUrl + '" target="_blank">' + F.title + "</a>";
-                            B += "<br/>";
-                            B += F.content;
-                            B += "<br/>";
-                            B += '<a href="' + F.unescapedUrl + '" target="_blank" class="info" style="text-decoration:none;">' + F.unescapedUrl + "</a>";
-                            B += "<br/>";
-                            if (F.thumb) {
-                                B += '<a href="' + F.unescapedUrl + '" target="_blank">' + F.thumb + "</a><br/>"
-                            }
-                            B += "&nbsp;</td></tr>"
-                        }
-                    }
-                    goosh.gui.out(B + "</table>")
-                };
-                this.call = function (A) {
-                    if (A.length > 0) {
-                        this.start = 0;
-                        this.qstart = 0;
-                        this.results = new Array();
-                        this.args = A.join(" ");
-                        if (A.length > 1 && this.name == "site") {
-                            this.args = "site:" + this.args;
-                            this.cmd = "web"
-                        } else {
-                            if (this.name == "wiki") {
-                                this.args = "site:" + goosh.config.lang + ".wikipedia.org " + this.args;
-                                this.cmd = "web"
-                            } else {
-                                this.cmd = this.name
-                            }
-                        }
-                        this.query(this.cmd, this.args)
-                    }
-                };
-                this.more = function () {
-                    if (this.args) {
-                        this.start += parseInt(goosh.config.numres);
-                        this.qstart = this.results.length;
-                        if (this.results.length < this.start + parseInt(goosh.config.numres)) {
-                            this.query(this.cmd, this.args)
-                        } else {
-                            this.renderResult()
-                        }
-                    }
-                };
-                this.render = function (C, B, E, A, F) {
-                    if (goosh.ajax.iscontext(C)) {
-                        if (B && B.results) {
-                            for (i = 0; i < B.results.length; i++) {
-                                var D = B.results[i];
-                                if (this.name == "blogs") {
-                                    B.results[i].unescapedUrl = D.postUrl
-                                } else {
-                                    if (this.name == "images") {
-                                        B.results[i].thumb = "<img src='" + D.tbUrl + "'  width='" + D.tbWidth + "' height='" + D.tbHeight + "'/>"
-                                    } else {
-                                        if (this.name == "video") {
-                                            B.results[i].thumb = "<img src='" + D.tbUrl + "' width='130' height='97' />";
-                                            B.results[i].unescapedUrl = D.playUrl
-                                        }
-                                    }
-                                }
-                                this.results.push(B.results[i])
-                            }
-                            this.hasmore = true;
-                            if (B.results.length < 8) {
-                                this.hasmore = false;
-                                moreobj = false
-                            }
-                        } else {
-                            this.hasmore = false;
-                            moreobj = false
-                        }
-                        if (this.hasmore && this.results.length < this.start + parseInt(goosh.config.numres)) {
-                            this.qstart = this.results.length;
-                            this.query(this.cmd, this.args);
-                            return
-                        }
-                        if (B && B.cursor && B.cursor.moreResultsUrl) {
-                            this.moreresurl = B.cursor.moreResultsUrl
-                        }
-                        if (!this.hasmore && this.moreresurl) {
-                            D = new Object();
-                            D.title = "More results at google";
-                            D.unescapedUrl = unescape(this.moreresurl);
-                            D.content = "";
-                            this.results.push(D)
-                        }
-                        this.renderResult(C, B, E, A, F);
-                        goosh.gui.showinput();
-                        goosh.gui.focusinput();
-                        goosh.gui.scroll()
-                    }
-                }
-            };
-            goosh.modules.register("web");
-
-            goosh.module.more = function () {
-                this.name = "more";
-                this.aliases = new Array("more", "m");
-                this.help = "get more results";
-                this.call = function (A) {
-                    if (goosh.config.moreobj && goosh.config.moreobj.hasmore) {
-                        goosh.config.moreobj.more()
-                    }
-                }
-            };
-            goosh.modules.register("more");
-            goosh.module.blogs = function () {
-                this.name = "blogs";
-                this.aliases = new Array("blogs", "blog", "b");
-                this.mode = true;
-                this.parameters = "[keywords]";
-                this.help = "google blog search";
-                this.helptext = "<span class='info'>examples:</span><br/><i>blog foo bar</i>  - searches for &quot;foo bar&quot; blogs<br/>"
-            };
-            goosh.modules.register("blogs", "web");
-            goosh.module.read = function () {
-                this.name = "read";
-                this.aliases = new Array("read", "rss", "r");
-                this.mode = false;
-                this.start = 0;
-                this.parameters = "&lt;url>";
-                this.help = "read feed of url";
-                this.helptext = "<span class='info'>examples:</span><br/><i>read reddit.com</i>  - read reddit.com-feed<br/>";
-                this.query = function (A, B) {
-                    goosh.ajax.query("http://ajax.googleapis.com/ajax/services/feed/load?v=1.0&hl=" + goosh.config.lang + "&callback=goosh.modobj." + this.name + ".render&num=100&scoring=h&q=" + encodeURIComponent(B) + "&key=" + goosh.config.apikey)
-                };
-                this.lookup = function (A, B) {
-                    goosh.ajax.query("http://ajax.googleapis.com/ajax/services/feed/lookup?v=1.0&hl=" + goosh.config.lang + "&callback=goosh.modobj." + this.name + ".lookupdone&q=" + encodeURIComponent(B) + "&key=" + goosh.config.apikey)
-                };
-                this.lookupdone = function (C, B, D, A, E) {
-                    if (B) {
-                        if (B.url) {
-                            if (goosh.ajax.iscontext(C)) {
-                                this.query(this.name, B.url)
-                            }
-                        }
-                    } else {
-                        goosh.gui.error("feed &quot;" + this.args + "&quot; not found.<br/> Try the &quot;feed&quot;-command to find feeds.")
-                    }
-                };
-                this.call = function (A) {
-                    if (A.length > 0) {
-                        this.start = 0;
-                        this.results = new Array();
-                        this.args = A.join(" ");
-                        this.lookup(this.name, A.join(" "))
-                    }
-                };
-                this.render = function (C, B, E, A, F) {
-                    if (goosh.ajax.iscontext(C)) {
-                        if (B) {
-                            B.results = new Array();
-                            for (i = 0; i < B.feed.entries.length; i++) {
-                                if (B.feed.entries[i]) {
-                                    B.results[i] = B.feed.entries[i]
-                                }
-                            }
-                            for (i = 0; i < B.results.length; i++) {
-                                if (B.results[i]) {
-                                    var D = B.results[i];
-                                    B.results[i].unescapedUrl = D.link;
-                                    B.results[i].content = D.contentSnippet
-                                }
-                            }
-                            this.results = B.results;
-                            this.hasmore = true;
-                            this.renderResult(C, B, E, A, F);
-                            goosh.gui.showinput();
-                            goosh.gui.focusinput();
-                            goosh.gui.scroll()
-                        } else {
-                            goosh.gui.error("Error: feed &quot;" + this.args + "&quot; not found.<br/> Try the &quot;feed&quot;-command to find feeds.")
-                        }
-                    }
-                };
-                this.more = function () {
-                    if (this.args) {
-                        this.start += parseInt(goosh.config.numres);
-                        if (this.results.length <= this.start + parseInt(goosh.config.numres)) {
-                            this.hasmore = false;
-                            moreobj = false
-                        }
-                        this.renderResult()
-                    }
-                }
-            };
-            goosh.modules.register("read", "web");
-
             goosh.module.clear = function () {
                 this.name = "clear";
                 this.aliases = new Array("clear", "c");
@@ -834,14 +619,6 @@
                 }
             };
             goosh.modules.register("clear");
-            goosh.module.wiki = function () {
-                this.name = "wiki";
-                this.aliases = new Array("wikipedia", "wiki");
-                this.mode = true;
-                this.help = "wikipedia search";
-                this.helptext = "<span class='info'>examples:</span><br/><i>wiki foo bar</i>  - searches &quot;foo bar&quot; in wikipedia<br/>"
-            };
-            goosh.modules.register("wiki", "web");
 
 		goosh.module.forum = function () {
                 this.name = "forum";
@@ -850,7 +627,7 @@
                 this.help = "A forum containing discussion topics as text files";
                 this.helptext = "<span class='info'>examples:</span><br/><i>cd forum</i>  - Changes the directory to forum, where you can use 'ls' to list all the discussion topics.<br/>"
             };
-            goosh.modules.register("forum", "web");
+            goosh.modules.register("forum");
 
             goosh.module.help = function () {
                 this.name = "help";
@@ -930,29 +707,23 @@
                 this.helptext = "This exists just for convenience. Use &lt;command> without parameters instead.<br/>";
                 this.call = function (A) {
                     if (!A[0]) {
-                        A[0] = goosh.config.mode
+                        A[0] = goosh.config.mode;
                     }
                     if (A[0] && A[0] == "..") {
-                        A[0] = "web"
+                        goosh.config.mode = "";
+			goosh.gui.updateprompt();
+			return;
                     }
                     if (A[0] && goosh.modules.list[A[0]] && goosh.modules.list[A[0]].mode) {
                         var B = goosh.modules.list[A[0]];
                         goosh.config.mode = B.name;
-                        goosh.gui.updateprompt()
+                        goosh.gui.updateprompt();
                     } else {
                         goosh.gui.error("command not found or command is not a mode.")
                     }
                 }
             };
             goosh.modules.register("cd");
-            goosh.module.site = function () {
-                this.name = "site";
-                this.aliases = new Array("site", "in");
-                this.parameters = "&lt;url> &lt;keywords>";
-                this.help = "search in a specific website";
-                this.mode = false
-            };
-            goosh.modules.register("site", "web");
 
  		goosh.module.startx = function () {
                 this.name = "startx";
@@ -1105,56 +876,7 @@
                 }
             };
             goosh.modules.register("settings");
-            goosh.module.login = function () {
-                this.name = "login";
-                this.aliases = new Array("login");
-                this.help = "login with your google account *";
-                this.helptext = "goosh sees only your username";
-                this.parameters = "";
-                this.cb = function (A, B) {
-                    if (goosh.ajax.iscontext(A)) {
-                        if (B && B != "guest") {
-                            goosh.lib.cookie.set("loggedin", "1", 365)
-                        }
-                        goosh.config.user = B;
-                        if (goosh.config.user != "guest") {
-                            goosh.gui.outln("You're logged in as: " + goosh.config.user + "<br/>");
-                            goosh.set.init();
-                            goosh.gui.updateprompt();
-                            goosh.gui.showinput();
-                            goosh.gui.focusinput();
-                            goosh.gui.scroll()
-                        } else {
-                            goosh.ajax.query("http://goosh.appspot.com/dologin?")
-                        }
-                        goosh.gui.showinput();
-                        goosh.gui.focusinput();
-                        goosh.gui.scroll()
-                    }
-                };
-                this.call = function (A) {
-                    goosh.ajax.query("http://goosh.appspot.com/status?callback=goosh.modobj.login.cb")
-                }
-            };
-            goosh.modules.register("login");
-            goosh.module.logout = function () {
-                this.name = "logout";
-                this.aliases = new Array("logout");
-                this.help = "log out of goosh *";
-                this.helptext = "";
-                this.call = function (A) {
-                    goosh.ajax.query("http://goosh.appspot.com/dologout?");
-                    if (goosh.ajax.iscontext(goosh.ajax.lastcontext)) {
-                        goosh.config.user = "guest";
-                        goosh.lib.cookie.del("loggedin");
-                        goosh.gui.updateprompt();
-                        goosh.gui.showinput();
-                        goosh.gui.focusinput();
-                        goosh.gui.scroll()
-                    }
-                }
-            };
-            goosh.modules.register("logout");
+
             goosh.command = function () {
                 var F = goosh.gui.inputfield.value;
                 var G = F.split(" ");
@@ -1291,7 +1013,6 @@ document.write(today.getDate(),"/",today.getMonth()+1,"/",today.getFullYear());<
 technology and geekiness in everything around us. If you don't like this interface, we have a 
 friendlier version for you, which you can invoke by entering 'startx' in the shell.</p>
 <p> * Documentation: <a href="#" target="_blank">http://www.iiitbh-acm.org/doc/</a></p>
-            <p>This portal is developed by Anirudha Bose &lt;ani07nov@gmail.com&gt; and Gourab Chowdhury &lt;gc2dec@gmail.com&gt;.</p>
         </div>
         <div id="input">
             <form name='f' onsubmit='return false;' class='cmdline' action=''>
