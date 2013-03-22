@@ -288,7 +288,7 @@
                 }
             };
             goosh.gui.updateprompt = function () {
-                goosh.gui.prompt = goosh.config.user + "@" + goosh.config.host + ":/" + goosh.config.mode + goosh.config.pend;
+                goosh.gui.prompt = goosh.config.user + "@" + goosh.config.host + ":80/" + goosh.config.mode + goosh.config.pend;
                 goosh.gui.promptel.innerHTML = goosh.gui.prompt
             };
             goosh.gui.scroll = function () {
@@ -483,9 +483,9 @@
             };
             goosh.lib.namespace("goosh.config");
             goosh.config.apikey = "ABQIAAAA0cXSEVCNSwf_x74KTtPJMRQP4Q7D8MPck7bhT7upyfJTzVDU2BRxkUdd2AvzlDDF7DNUJI_Y4eB6Ug";
-            goosh.config.user = "guest";
+            goosh.config.user = "user";
             goosh.config.host = "iiitbh-acm.org";
-            goosh.config.mode = "web";
+            goosh.config.mode = "";
             goosh.config.pend = "$&nbsp;";
             goosh.config.numres = 4;
             goosh.config.timeout = 4;
@@ -615,7 +615,7 @@
                 this.aliases = new Array("web", "search", "s", "w");
                 this.mode = true;
                 this.start = 0;
-                this.args = "";
+                this.args = "http://periwinklesnow.wordpress.com/";
                 this.parameters = "[keywords]";
                 this.help = "google web search";
                 this.helptext = "<span class='info'>examples:</span><br/><i>web foo bar</i>  - searches the web for &quot;foo bar&quot;<br/>";
@@ -731,15 +731,7 @@
                 }
             };
             goosh.modules.register("web");
-            goosh.module.news = function () {
-                this.name = "news";
-                this.aliases = new Array("news", "n");
-                this.mode = true;
-                this.parameters = "[keywords]";
-                this.help = "google news search";
-                this.helptext = "<span class='info'>examples:</span><br/><i>blog foo bar</i>  - searches for &quot;foo bar&quot; news<br/>"
-            };
-            goosh.modules.register("news", "web");
+
             goosh.module.more = function () {
                 this.name = "more";
                 this.aliases = new Array("more", "m");
@@ -832,245 +824,7 @@
                 }
             };
             goosh.modules.register("read", "web");
-            goosh.module.feeds = function () {
-                this.name = "feeds";
-                this.aliases = new Array("feeds", "feed", "f");
-                this.mode = true;
-                this.start = 0;
-                this.args = "";
-                this.parameters = "[keywords]";
-                this.help = "google feed search";
-                this.helptext = "<span class='info'>examples:</span><br/><i>feed foo bar</i>  - searches for &quot;foo bar&quot; feeds<br/><i>read 2</i>  - reads second result<br/>";
-                this.query = function (A, B) {
-                    goosh.ajax.query("http://ajax.googleapis.com/ajax/services/feed/find?v=1.0&hl=" + goosh.config.lang + "&callback=goosh.modobj." + this.name + ".render&q=" + encodeURIComponent(B) + "&num=100&key" + goosh.config.apikey + "&")
-                };
-                this.call = function (A) {
-                    if (A.length > 0) {
-                        this.start = 0
-                    }
-                    this.results = new Array();
-                    this.args = A.join(" ");
-                    this.query(this.name, A.join(" "))
-                };
-                this.render = function (C, B, E, A, F) {
-                    if (goosh.ajax.iscontext(C)) {
-                        if (B && B.entries && B.entries.length > 0) {
-                            B.results = new Array();
-                            for (i = 0; i < B.entries.length; i++) {
-                                if (B.entries[i]) {
-                                    B.results[i] = B.entries[i]
-                                }
-                            }
-                            for (i = 0; i < B.results.length; i++) {
-                                if (B.results[i]) {
-                                    var D = B.results[i];
-                                    B.results[i].unescapedUrl = D.url;
-                                    B.results[i].content = D.contentSnippet
-                                }
-                            }
-                            this.results = B.results;
-                            this.hasmore = true;
-                            this.renderResult(C, B, E, A, F)
-                        } else {
-                            goosh.gui.error("No feeds found for &quot;" + this.args + "&quot;")
-                        }
-                        goosh.gui.showinput();
-                        goosh.gui.focusinput();
-                        goosh.gui.scroll()
-                    }
-                };
-                this.more = function () {
-                    if (this.args) {
-                        this.start += parseInt(goosh.config.numres);
-                        if (this.results.length <= this.start + parseInt(goosh.config.numres)) {
-                            this.hasmore = false;
-                            moreobj = false
-                        }
-                        this.renderResult()
-                    }
-                }
-            };
-            goosh.modules.register("feeds", "web");
-            goosh.module.place = function () {
-                this.name = "place";
-                this.aliases = new Array("places", "place", "map", "p");
-                this.mode = true;
-                this.start = 0;
-                this.args = "";
-                this.parameters = "[address]";
-                this.help = "google maps search";
-                this.helptext = "<span class='info'>examples:</span><br/><i>place New York</i>  - show new york in a map<br/>";
-                this.query = function (A, B) {
-                    goosh.ajax.query("http://maps.google.com/maps/geo?q=" + encodeURIComponent(B) + "&output=json&callback=goosh.modobj." + this.name + ".render&key=" + goosh.config.apikey + "&lang=" + goosh.config.lang)
-                };
-                this.call = function (A) {
-                    if (A.length > 0) {
-                        this.start = 0
-                    }
-                    this.results = new Array();
-                    this.args = A.join(" ");
-                    this.query(this.name, A.join(" "))
-                };
-                this.render = function (B) {
-                    if (goosh.ajax.iscontext(goosh.ajax.lastcontext)) {
-                        if (B && B.Placemark) {
-                            B.results = new Array();
-                            for (i = 0; i < B.Placemark.length; i++) {
-                                if (B.Placemark[i]) {
-                                    this.hasmore = true;
-                                    var C = B.Placemark[i];
-                                    var D = C.AddressDetails.Accuracy;
-                                    var A = 5;
-                                    if (D >= 4) {
-                                        A = 10
-                                    }
-                                    if (D >= 6) {
-                                        A = 14
-                                    }
-                                    B.results[i] = new Array();
-                                    B.results[i].title = C.address;
-                                    B.results[i].unescapedUrl = "http://maps.google.com/maps?f=q&hl=" + goosh.config.lang + "&q=" + encodeURIComponent(C.address) + "&center=" + C.Point.coordinates[1] + "," + C.Point.coordinates[0] + "&zoom=" + (A);
-                                    B.results[i].content = "";
-                                    B.results[i].thumb = "<img src='http://maps.google.com/staticmap?center=" + C.Point.coordinates[1] + "," + C.Point.coordinates[0] + "&zoom=" + (A) + "&size=" + goosh.config.mapwidth + "x" + goosh.config.mapheight + "&maptype=roadmap&markers=" + C.Point.coordinates[1] + "," + C.Point.coordinates[0] + ",blue&key=" + goosh.config.apikey + "' width='" + goosh.config.mapwidth + "' height='" + goosh.config.mapheight + "'/>"
-                                }
-                            }
-                            this.hasmore = true;
-                            this.results = B.results;
-                            this.renderResult(goosh.ajax.lastcontext, B)
-                        } else {
-                            goosh.gui.error("Place &quot;" + this.args + "&quot; not found.")
-                        }
-                        if (this.results.length <= this.start + parseInt(goosh.config.numres)) {
-                            this.hasmore = false;
-                            moreobj = false
-                        }
-                        goosh.gui.showinput();
-                        goosh.gui.focusinput();
-                        goosh.gui.scroll()
-                    }
-                    return true
-                };
-                this.more = function () {
-                    if (this.args) {
-                        this.start += parseInt(goosh.config.numres);
-                        if (this.results.length <= this.start + parseInt(goosh.config.numres)) {
-                            this.hasmore = false;
-                            moreobj = false
-                        }
-                        this.renderResult()
-                    }
-                }
-            };
-            goosh.modules.register("place", "web");
-            goosh.module.translate = function () {
-                this.name = "translate";
-                this.aliases = new Array("translate", "trans", "t");
-                this.mode = true;
-                this.args = "";
-                this.parameters = "[lang1] [lang2] &lt;words>";
-                this.help = "google translation";
-                this.helptext = "<span class='info'>examples:</span><br/><i>translate en de What time is it?</i>  - translate &quot;What time is it?&quot; from english to german<br/><i>translate fr What time is it?</i>  - translate &quot;What time is it?&quot; to french<br/><i>translate Wie sp&auml;t ist es?</i>  - translates &quot;Wie sp&auml;t ist es?&quot; to your default language. language of text will be guessed.<br/>";
-                this.query = function (B, A) {
-                    goosh.ajax.query("http://ajax.googleapis.com/ajax/services/language/translate?v=1.0&q=" + encodeURIComponent(this.text) + "&langpair=" + this.lang1 + "%7C" + this.lang2 + "&callback=goosh.modobj." + this.name + ".render&key=" + goosh.config.apikey)
-                };
-                this.guess = function (A) {
-                    goosh.ajax.query("http://ajax.googleapis.com/ajax/services/language/detect?v=1.0&q=" + encodeURIComponent(A) + "&callback=goosh.modobj." + this.name + ".guessresult&key=" + goosh.config.apikey)
-                };
-                this.guessresult = function (C, B, D, A, E) {
-                    if (goosh.ajax.iscontext(C)) {
-                        if (B) {
-                            if (B.language) {
-                                this.lang1 = B.language;
-                                if (!this.lang2) {
-                                    this.lang2 = goosh.config.lang
-                                }
-                                this.query()
-                            } else {
-                                goosh.gui.error("could not guess language.")
-                            }
-                        }
-                    }
-                };
-                this.renderResult = function (E, D, F, C, G) {
-                    var B = "";
-                    var A = this.start;
-                    if (goosh.ajax.iscontext(E)) {
-                        if (D) {
-                            if (D.translatedText) {
-                                goosh.gui.outln("translating &quot;" + this.text + "&quot; from " + goosh.gui.info(goosh.lang.reverse[this.lang1]) + " to " + goosh.gui.info(goosh.lang.reverse[this.lang2]) + ":");
-                                goosh.gui.outln("");
-                                goosh.gui.outln(goosh.gui.info("&quot;" + D.translatedText + "&quot;"));
-                                goosh.gui.outln("")
-                            } else {
-                                goosh.gui.error("no translation found.")
-                            }
-                        }
-                        goosh.gui.showinput();
-                        goosh.gui.focusinput();
-                        goosh.gui.scroll()
-                    }
-                };
-                this.call = function (A) {
-                    this.args = A;
-                    this.lang1 = false;
-                    this.lang2 = false;
-                    if (A.length > 2 && (goosh.lang.list[A[0]] || goosh.lang.reverse[A[0]]) && (goosh.lang.list[A[1]] || goosh.lang.reverse[A[1]])) {
-                        if (goosh.lang.list[A[0]]) {
-                            this.lang1 = goosh.lang.list[A[0]]
-                        } else {
-                            this.lang1 = A[0]
-                        }
-                        if (goosh.lang.list[A[1]]) {
-                            this.lang2 = goosh.lang.list[A[1]]
-                        } else {
-                            this.lang2 = A[1]
-                        }
-                        this.text = A[2];
-                        for (i = 3; i < A.length; i++) {
-                            this.text += " " + A[i]
-                        }
-                        this.query(this.name, A)
-                    } else {
-                        var B = "";
-                        if (goosh.lang.list[A[0]] || goosh.lang.reverse[A[0]]) {
-                            if (goosh.lang.list[A[0]]) {
-                                this.lang2 = goosh.lang.list[A[0]]
-                            } else {
-                                this.lang2 = A[0]
-                            }
-                            B = A[1];
-                            for (i = 2; i < A.length; i++) {
-                                B += " " + A[i]
-                            }
-                        } else {
-                            B = A.join(" ")
-                        }
-                        this.text = B;
-                        this.guess(B)
-                    }
-                };
-                this.render = function (C, B, D, A, E) {
-                    this.renderResult(C, B, D, A, E)
-                }
-            };
-            goosh.modules.register("translate");
-            goosh.module.images = function () {
-                this.name = "images";
-                this.aliases = new Array("images", "image", "i");
-                this.mode = true;
-                this.help = "google image search";
-                this.helptext = "<span class='info'>examples:</span><br/><i>images foo bar</i>  - searches for &quot;foo bar&quot; images<br/>"
-            };
-            goosh.modules.register("images", "web");
-            goosh.module.video = function () {
-                this.name = "video";
-                this.aliases = new Array("videos", "video", "v");
-                this.mode = true;
-                this.parameters = "[keywords]";
-                this.help = "google video search";
-                this.helptext = "<span class='info'>examples:</span><br/><i>video foo bar</i>  - searches for &quot;foo bar&quot; videos<br/>"
-            };
-            goosh.modules.register("video", "web");
+
             goosh.module.clear = function () {
                 this.name = "clear";
                 this.aliases = new Array("clear", "c");
@@ -1088,6 +842,16 @@
                 this.helptext = "<span class='info'>examples:</span><br/><i>wiki foo bar</i>  - searches &quot;foo bar&quot; in wikipedia<br/>"
             };
             goosh.modules.register("wiki", "web");
+
+		goosh.module.forum = function () {
+                this.name = "forum";
+                this.aliases = new Array("forum");
+                this.mode = true;
+                this.help = "A forum containing discussion topics as text files";
+                this.helptext = "<span class='info'>examples:</span><br/><i>cd forum</i>  - Changes the directory to forum, where you can use 'ls' to list all the discussion topics.<br/>"
+            };
+            goosh.modules.register("forum", "web");
+
             goosh.module.help = function () {
                 this.name = "help";
                 this.aliases = new Array("help", "man", "h", "?");
@@ -1216,6 +980,20 @@
                     B += "<table border='0' class='help'><tr>";
                     var A;
                     var D = 0;
+		    if(goosh.config.mode == "forum"){
+		    B+="<td>topic1.txt</td>\
+			<td>topic2.txt</td>\
+			<td>topic3.txt</td>\
+			<td>topic4.txt</td>\
+			<td>topic5.txt</td></tr>\
+			<tr><td>topic6.txt</td>\
+			<td>topic7.txt</td>\
+			<td>topic8.txt</td>\
+			<td>topic9.txt</td>\
+			<td>topic10.txt</td></tr>\
+			<td>topic11.txt</td>";
+		    }
+		    else{
                     for (key in goosh.modules.list) {
                         if (C.length == 0 || key == C[0]) {
                             A = goosh.modules.list[key];
@@ -1230,7 +1008,7 @@
                             }
                             D++
                         }
-                    }
+                    }}
                     B += "</tr></table>";
                     goosh.gui.outln(B)
                 }
