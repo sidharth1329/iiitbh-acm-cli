@@ -688,7 +688,7 @@
                     } else {
                         B += " <br/>";
                         B += "- Enter green commands without parameters to change default mode.<br/>";
-                        B += "- Anything that's not a command will search in current default mode.<br/>";
+                        B += "- Anything that's not a command will stay on the standard input without any error.<br/>";
                         B += "- Aliases will expand to commands. Numbers will expand to corresponding search results.<br/>";
                         B += "- Use cursor up and down for command history.<br/>";
                         B += "- Enter keyword and hit the tab-key for tab-completion.<br/>";
@@ -703,7 +703,7 @@
                 this.name = "cd";
                 this.aliases = new Array("cd");
                 this.parameters = "&lt;command>";
-                this.help = "change mode";
+                this.help = "Change directory";
                 this.helptext = "This exists just for convenience. Use &lt;command> without parameters instead.<br/>";
                 this.call = function (A) {
                     if (!A[0]) {
@@ -719,22 +719,69 @@
                         goosh.config.mode = B.name;
                         goosh.gui.updateprompt();
                     } else {
-                        goosh.gui.error("command not found or command is not a mode.")
+                        goosh.gui.error("command not found or command is not a mode.");
                     }
                 }
             };
             goosh.modules.register("cd");
+			
+			function loadXMLDoc(file){
+				var xmlhttp;
+				if (window.XMLHttpRequest){
+					// code for IE7+, Firefox, Chrome, Opera, Safari
+					xmlhttp=new XMLHttpRequest();
+				}
+				else{
+					// code for IE6, IE5
+					xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+				}
+				xmlhttp.onreadystatechange=function(){
+					switch(xmlhttp.readyState){
+						case 4:		if(xmlhttp.status==200){
+										var text = xmlhttp.responseText;
+										goosh.gui.outln('<div style="color:cyan"><pre>'+text+'</pre></div>');
+										break;
+									}
+						case 404:	goosh.gui.error("File not found.")
+									break;					
+					}
+				}
+				xmlhttp.open("GET",file,true);
+				xmlhttp.send(null);
+			}
+			goosh.module.cat = function () {
+                this.name = "cat";
+                this.aliases = new Array("cat");
+                this.parameters = "&lt;command>";
+                this.help = "UNIX text viewer";
+                this.helptext = "This exists just for convenience. Use &lt;command> without parameters instead.<br/>";
+                this.call = function (A) {
+					loadXMLDoc(A[0]);					
+                }
+            };
+            goosh.modules.register("cat");
 
- 		goosh.module.startx = function () {
+ 		goosh.module.startx = function (){
                 this.name = "startx";
                 this.aliases = new Array("startx", "x");
                 this.parameters = "[command]";
                 this.help = "Open X Windows System";
-                this.call = function (args) {
-			window.location.href = "./visual.html";
-		}
-            };
+                this.call = function (args){
+					window.location.href = "./visual";
+				}
+        };
             goosh.modules.register("startx");
+			
+		goosh.module.pwd = function (){
+                this.name = "pwd";
+                this.aliases = new Array("pwd");
+                this.parameters = "[command]";
+                this.help = "Displays the present working directory";
+                this.call = function (args){
+					goosh.gui.outln("/usr/etc/home/"+goosh.config.mode);
+				}
+        };
+            goosh.modules.register("pwd");
 
             goosh.module.ls = function () {
                 this.name = "ls";
@@ -1042,5 +1089,4 @@ friendlier version for you, which you can invoke by entering 'startx' in the she
              //-->
         </script>
     </body>
-
 </html>
