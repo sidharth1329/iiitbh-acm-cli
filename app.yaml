@@ -6,9 +6,8 @@ threadsafe: yes
 
 handlers:
 
-- url: /about.txt
-  static_files: about.txt
-  upload: about.txt
+- url: /text
+  static_dir: text
 
 - url: .*
   script: main.app

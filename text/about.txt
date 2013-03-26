@@ -1,0 +1,17 @@
+<div style="color:green;font-size:12px">About Us</div>
+<div style="color:white">We are the pristine club of Computer Science on IIIT Bhubaneswar's campus.
+Our goal is to connect students with industry, making sure that every computing student is given 
+the information about the best career opportunities out there. Our ACM Student Chapter is a group 
+of dedicated people who are interested in exploring the possibilities of computers and learning 
+more about how to use and develop them.
+
+Drop us a mail to say hi at contact@iiitbh-acm.org</div>
+
+<div style="color:green;font-size:12px">About ACM</div>
+<div style="color:white">ACM, the world's largest educational and scientific computing society, 
+delivers resources that advance computing as a science and a profession.ACM provides the computing 
+field's premier Digital Library and serves its members and the computing profession with 
+leading-edge publications, conferences, and career resources.</div>
+
+<div style="color:green;font-size:12px">Developers</div><div style="color:white"><li>Anirudha Bose &lt;<a href="mailto:ani07nov@gmail.com">ani07nov@gmail.com</a>&gt;	--> (Developer, Maintainer)</li></div>
+<div style="color:green;font-size:12px">Contributors</div><div style="color:white"><li>Gourab Chowdhury &lt;<a href="mailto:gc2dec@gmail.com">gc2dec@gmail.com</a>&gt;</li><li>Shubham Srivastava &lt;<a href="mailto:subhamrkl@gmail.com">subhamrkl@gmail.com</a>&gt;</li></div></div>
