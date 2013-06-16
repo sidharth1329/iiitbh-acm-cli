@@ -1,21 +1,523 @@
-var a=!0,f=!1,g={c:{}};g.c.g=function(b){b=b.split(".");for(var c=window,d=0;d<b.length;d++)"undefined"==typeof c[b[d]]&&(c[b[d]]={}),c=c[b[d]]};g.c.Ia=function(b,c){var d;for(d=0;d<b.length;d++)if(b[d]==c)return a;return f};g.c.w=function(b){if(b)for(;" "==b.charAt(0);)b=b.substr(1);return b};g.c.g("shell.lib");g.c.get=function(b){b=b.replace(/[\[]/,"\\[").replace(/[\]]/,"\\]");b=RegExp("[\\?&]"+b+"=([^&#]*)").exec(window.location.href);return null==b?"":decodeURIComponent(b[1]).replace(/\+/g," ")};
-g.c.g("shell.lib.cookie");g.c.cookie.list={};g.c.cookie.t=function(b,c){for(var d=b.split(";"),e=0;e<d.length;e++){var h=d[e].split("="),j=g.c.w(h[0]),h=g.c.w(h[1]);c&&g.c.cookie.list[j]!=h&&g.c.cookie.set(j,h,365);g.c.cookie.list[j]=h}};g.c.cookie.get=function(b){return g.c.cookie.list[b]};
-g.c.cookie.set=function(b,c,d){var e=new Date;e.setTime(e.getTime()+864E5*d);document.cookie=b+"="+c+"; expires="+e.toGMTString();"guest"!=g.d.v&&"loggedin"!=b&&(e="",0>d&&(e="&del=1"),g.e.G("http://goosh.appspot.com/cookie?key="+encodeURIComponent(b)+"&val="+encodeURIComponent(c)+"&callback=shell.lib.cookie.fetch"+e,a));return g.c.cookie.list[b]=c};g.c.cookie.pa=function(b){g.c.cookie.set(b,"",-100);g.c.cookie.list[b]=null};g.c.cookie.O=function(){return g.c.cookie.list};g.c.g("shell.lang");
-g.lang.list={ca:"ar",ea:"bg",fa:"ca",ga:"zh",ha:"zh-cn",ia:"zh-tw",ma:"hr",na:"cs",oa:"da",ra:"nl",sa:"en",ta:"et",va:"tl",wa:"fi",xa:"fr",ya:"de",Aa:"el",Ca:"iw",Fa:"hi",Ha:"hu",Ja:"id",Ka:"it",La:"ja",Ma:"ko",Na:"lv",Qa:"lt",Ta:"no",Wa:"fa",Xa:"pl",Ya:"pt",$a:"ro",ab:"ru",bb:"sr",eb:"sk",fb:"sl",gb:"es",hb:"sv",ib:"th",jb:"tr",kb:"uk",nb:"vi"};g.lang.reverse={};for(key in g.lang.list)g.lang.reverse[g.lang.list[key]]=key;g.c.g("shell.gui");g.a.r=f;g.a.u=f;g.a.D=f;g.a.i=f;g.a.j=f;g.a.N=function(b){return document.getElementById(b)};
-g.a.S=function(){g.a.r=document.getElementById("input");g.a.u=document.getElementById("output");g.a.D=document.getElementById("prompt");g.a.i=document.getElementById("inputfield");g.a.j=document.getElementById("body");g.a.i.createTextRange?(g.a.i.onkeyup=new Function("return shell.keyboard.mcursor(event);"),g.a.j.onfocus=new Function("return shell.gui.focusinput(event);"),g.a.j.onclick=new Function("return shell.gui.focusinput(event);"),g.a.j.onkeydown=new Function("return shell.keyboard.keyDownHandler(event);")):
-(g.a.i.onkeyup=g.b.V,g.a.j.onfocus=g.a.q,g.a.j.onclick=g.a.q,g.a.j.onkeydown=g.b.T)};g.a.error=function(b){g.e.Z();g.a.C("Error: "+b+"<br/> <br/>");g.a.H();g.a.q();g.a.scroll()};g.a.l=function(b){g.a.C(b+"<br/>")};g.a.C=function(b){var c=document.createElement("div");c.innerHTML=b;g.a.u.appendChild(c)};g.a.Oa=function(){return"<span class='less'>If you use the noscript firefox-extension, add \"ajax.googleapis.com\" to the whitelist.</span>"};g.a.info=function(b){return"<span class='info'>"+b+"</span>"};
-g.a.clear=function(){g.a.u.innerHTML=""};g.a.H=function(){g.a.r.style.display="block"};g.a.R=function(){g.a.r.style.display="none"};g.a.q=function(){var b="";document.selection?b=document.selection.createRange().text:window.getSelection&&(b=window.getSelection().toString());0==b.length&&(document.z.F.value=document.z.F.value,"none"!=g.a.r.style.display&&document.z.F.focus())};g.a.lb=function(){g.a.prompt=g.d.v+"@"+g.d.host+":80/"+g.d.mode+g.d.X;g.a.D.innerHTML=g.a.prompt};
-g.a.scroll=function(){window.scrollBy(0,122500)};g.a.s=function(b,c,d){try{return g.a.N(b).style[c]=d,a}catch(e){return f}};g.a.o=function(b,c){var d=document.createElement("div");d.innerHTML="<br style='line-height:0px;'/><style>"+b+" {"+c+"}</style>";g.a.j.appendChild(d)};g.c.g("shell.set");
-g.set.f=function(b,c,d,e,h){this.name=b;this.K=d;this.L=c;h?this.max=h:this.max=2E3;e?this.min=e:this.min=0;e&&h&&(this.K+=" ("+e+".."+h+")");this.get=function(){return eval(""+this.name+";")};this.set=function(b){b>=this.min&&b<=this.max&&eval(""+this.name+" = '"+b+"';");return a}};g.set.list={};g.set.list.lang=new g.set.f("shell.config.lang","en","google default language");
-g.set.list.lang.set=function(b){if(g.lang.reverse[b])g.d.lang=b;else if(g.lang.list[b])g.d.lang=g.lang.list[b];else return f;return a};g.set.list.Y=new g.set.f("shell.config.numres","4","number of results for google-searches",1,100);g.set.list.timeout=new g.set.f("shell.config.timeout","4","timeout for ajax requests in seconds",1,100);g.set.list["style.bg"]=new g.set.f("shell.config.bgcolor","#000000","shell background color");
-g.set.list["style.bg"].set=function(b){return g.a.s("body","backgroundColor",b)&&g.a.s("inputfield","backgroundColor",b)?(g.d.da=b,a):f};g.set.list["style.fg"]=new g.set.f("shell.config.fgcolor","#ffffff","shell font color");g.set.list["style.fg"].set=function(b){return g.a.s("body","color",b)&&g.a.s("inputfield","color",b)?(g.d.ua=b,a):f};g.set.list["style.hl"]=new g.set.f("shell.config.hlcolor","#009900","shell highlight color");
-g.set.list["style.hl"].set=function(b){g.a.o(".info","color: "+b);g.a.o("a:visited.info","color: "+b);g.d.Ga=b;return a};g.set.list["style.sh"]=new g.set.f("shell.config.shcolor","#ffffff","shell 'shaded' color");g.set.list["style.sh"].set=function(b){g.a.o(".less","color: "+b);g.d.cb=b;return a};g.set.list["style.link"]=new g.set.f("shell.config.linkcolor","#ffffff","shell link color");g.set.list["style.link"].set=function(b){g.a.o("a","color: "+b);g.d.Pa=b;return a};
-g.set.list["style.vlink"]=new g.set.f("shell.config.vlinkcolor","#ffffff","shell visited link color");g.set.list["style.vlink"].set=function(b){g.a.o("a:visited","color: "+b);g.d.ob=b;return a};g.set.list["place.width"]=new g.set.f("shell.config.mapwidth","300","width of map image",20,600);g.set.list["place.height"]=new g.set.f("shell.config.mapheight","150","height of map image",20,500);
-g.set.S=function(b,c){if("guest"!=g.d.v)if(b)g.e.B(b)&&(g.a.l("Loading remote settings..."),g.c.cookie.t(document.cookie),g.c.cookie.t(c,a));else{g.e.G("http://goosh.appspot.com/cookie?callback=shell.set.init");return}else g.a.l("Loading local settings..."),g.c.cookie.t(document.cookie);var d=g.c.cookie.O();for(key in g.set.list){var e=f;d[key]&&(e=d[key]);e&&g.set.list[key].set(e)?g.a.l("&nbsp;"+key+" => &quot;"+e+"&quot;."):g.set.list[key].set(g.set.list[key].L)}g.a.l("");g.za()};g.c.g("shell.ajax");
-g.e.n=[];g.e.U=f;g.e.Z=function(){for(key in g.e.n)g.e.B(key)};g.e.qa=function(b){g.a.l("Error: Operation timed out. "+b);document.all||g.a.l("<span class='less'>If you use the noscript firefox-extension, add \"ajax.googleapis.com\" to the whitelist.</span>");g.a.l("");g.e.n[b]=f;(b=document.getElementById(b))&&document.body.removeChild(b);g.a.H();g.a.q();g.a.scroll();document.all||stop()};
-g.e.B=function(b){return g.e.n[b]?(clearTimeout(g.e.n[b]),g.e.n[b]=f,(b=document.getElementById(b))&&document.body.removeChild(b),a):f};g.e.P=function(){var b=(new Date).getTime();g.e.n[b]=setTimeout("shell.ajax.deletecontext('"+b+"');",1E3*g.d.timeout);return b};g.e.G=function(b,c){var d="none";c||(d=g.e.P(),g.e.U=d,g.a.R());var e=document.createElement("script");document.body.appendChild(e);e.src=b+"&context="+d+"&";e.id=d};g.c.g("shell.config");g.d.ba="ABQIAAAA0cXSEVCNSwf_x74KTtPJMRQP4Q7D8MPck7bhT7upyfJTzVDU2BRxkUdd2AvzlDDF7DNUJI_Y4eB6Ug";
-g.d.v="user";g.d.host="iiitbh-acm.org";g.d.mode="";g.d.X="$&nbsp;";g.d.Ua=4;g.d.timeout=4;g.d.start=0;g.d.Sa;g.d.lang="en";g.d.mb=[];g.d.ja=[];g.d.ka=[];g.c.g("shell.keyboard");g.b.p=[];g.b.m=1;g.b.J="";g.b.k=[];g.b.h=0;g.b.A=0;g.b.I=function(b){g.b.m>g.b.p[b].length&&(g.b.m=1);g.b.p[b][g.b.m]&&(g.a.i.value=g.b.p[b][g.b.m]);var c=g.a.i;c.createTextRange?(c=c.createTextRange(),c.moveStart("character",b.length),c.select()):c.setSelectionRange&&c.setSelectionRange(b.length,c.value.length)};
-g.b.M=function(){this.$=function(b,c,d){g.b.p[c]=d;g.b.I(c);return a}};window.Q=[];window.Q.aa=new g.b.M;g.b.T=function(b){!b&&window.event&&(b=window.event);b&&(_lastKeyCode=b.keyCode);if(b&&9==b.keyCode){b.cancelBubble=a;b.returnValue=f;b=g.b.J;if(""!=b)if(g.b.p[b])g.b.m+=2,g.b.I(b);else{g.b.m=1;var c=document.createElement("script");document.body.appendChild(c);c.src="http://www.google.com/complete/search?hl="+g.d.lang+"&js=true&qu="+encodeURIComponent(b)}return f}};
-g.b.V=function(b){b=b.keyCode;if(0<g.b.k.length){if(38==b||40==b)g.b.k[g.b.h]?g.b.k[g.b.h]=g.a.i.value:g.b.A=g.a.i.value;38==b?(g.b.h--,0>g.b.h&&(g.b.h=0)):40==b&&(g.b.h++,g.b.h>g.b.k.length&&(g.b.h=g.b.k.length));if(38==b||40==b)g.a.i.value=g.b.k[g.b.h]?g.b.k[g.b.h]:g.b.A}9!=b&&13!=b&&(g.b.J=g.a.i.value);13==b&&g.la()};g.c.g("shell.modules");g.c.g("shell.module");g.c.g("shell.modobj");g.W.list=[];g.Ra.f=function(){this.mode=f;this.Va="";this.Da="no helptext yet.";this.Ea="";this.Ba=f;this.Y=[]};
-g.W.Za=function(b,c){c||(c="base");eval("shell.module."+b+".prototype = new shell.module."+c+";shell.modobj."+b+" = new shell.module."+b+';shell.modules.list["'+b+'"] = shell.modobj.'+b+";")};
-
+            var shell = new Object();
+            shell.lib = new Object();
+            shell.lib.namespace = function (C) {
+                var D = C.split(".");
+                var A = window;
+                for (var B = 0; B < D.length; B++) {
+                    if (typeof A[D[B]] == "undefined") {
+                        A[D[B]] = new Object()
+                    }
+                    A = A[D[B]]
+                }
+            };
+            shell.lib.in_array = function (A, C) {
+                var B;
+                for (B = 0; B < A.length; B++) {
+                    if (A[B] == C) {
+                        return true
+                    }
+                }
+                return false
+            };
+            shell.lib.chop = function (A) {
+                if (A) {
+                    while (A.charAt(0) == " ") {
+                        A = A.substr(1)
+                    }
+                }
+                return A
+            };
+            shell.lib.namespace("shell.lib");
+            shell.lib.get = function (A) {
+                A = A.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+                var C = "[\\?&]" + A + "=([^&#]*)";
+                var D = new RegExp(C);
+                var B = D.exec(window.location.href);
+                if (B == null) {
+                    return ""
+                } else {
+                    return decodeURIComponent(B[1]).replace(/\+/g, " ")
+                }
+            };
+            shell.lib.namespace("shell.lib.cookie");
+            shell.lib.cookie.list = new Object();
+            shell.lib.cookie.getfromstr = function (G, D) {
+                var A = G.split(";");
+                for (var C = 0; C < A.length; C++) {
+                    var F = A[C].split("=");
+                    var B = shell.lib.chop(F[0]);
+                    var E = shell.lib.chop(F[1]);
+                    if (D && shell.lib.cookie.list[B] != E) {
+                        shell.lib.cookie.set(B, E, 365)
+                    }
+                    shell.lib.cookie.list[B] = E
+                }
+            };
+            shell.lib.cookie.get = function (A) {
+                return shell.lib.cookie.list[A]
+            };
+            shell.lib.cookie.set = function (B, D, F) {
+                var E = new Date();
+                var C = E.getTime() + (F * 24 * 60 * 60 * 1000);
+                E.setTime(C);
+                document.cookie = B + "=" + D + "; expires=" + E.toGMTString();
+                if (shell.config.user != "guest" && B != "loggedin") {
+                    var A = "";
+                    if (F < 0) {
+                        A = "&del=1"
+                    }
+                    shell.ajax.query("http://goosh.appspot.com/cookie?key=" + encodeURIComponent(B) + "&val=" + encodeURIComponent(D) + "&callback=shell.lib.cookie.fetch" + A, true)
+                }
+                shell.lib.cookie.list[B] = D;
+                return D
+            };
+            shell.lib.cookie.del = function (A) {
+                shell.lib.cookie.set(A, "", -100);
+                shell.lib.cookie.list[A] = null
+            };
+            shell.lib.cookie.getall = function () {
+                return shell.lib.cookie.list
+            };
+            shell.lib.namespace("shell.lang");
+            shell.lang.list = {
+                arabic: "ar",
+                bulgarian: "bg",
+                catalan: "ca",
+                chinese: "zh",
+                chinese_simplified: "zh-cn",
+                chinese_traditional: "zh-tw",
+                croatian: "hr",
+                czech: "cs",
+                danish: "da",
+                dutch: "nl",
+                english: "en",
+                estonian: "et",
+                filipino: "tl",
+                finnish: "fi",
+                french: "fr",
+                german: "de",
+                greek: "el",
+                hebrew: "iw",
+                hindi: "hi",
+                hungarian: "hu",
+                indonesian: "id",
+                italian: "it",
+                japanese: "ja",
+                korean: "ko",
+                latvian: "lv",
+                lithuanian: "lt",
+                norwegian: "no",
+                persian: "fa",
+                polish: "pl",
+                portuguese: "pt",
+                romanian: "ro",
+                russian: "ru",
+                serbian: "sr",
+                slovak: "sk",
+                slovenian: "sl",
+                spanish: "es",
+                swedish: "sv",
+                thai: "th",
+                turkish: "tr",
+                ukrainian: "uk",
+                vietnamese: "vi"
+            };
+            shell.lang.reverse = new Object();
+            for (key in shell.lang.list) {
+                shell.lang.reverse[shell.lang.list[key]] = key
+            }
+            shell.lib.namespace("shell.gui");
+            shell.gui.inputel = false;
+            shell.gui.outputel = false;
+            shell.gui.promptel = false;
+            shell.gui.inputfield = false;
+            shell.gui.bodyel = false;
+            shell.gui.el = function (A) {
+                return document.getElementById(A)
+            };
+            shell.gui.init = function () {
+                shell.gui.inputel = document.getElementById("input");
+                shell.gui.outputel = document.getElementById("output");
+                shell.gui.promptel = document.getElementById("prompt");
+                shell.gui.inputfield = document.getElementById("inputfield");
+                shell.gui.bodyel = document.getElementById("body");
+                if (shell.gui.inputfield.createTextRange) {
+                    shell.gui.inputfield.onkeyup = new Function("return shell.keyboard.mcursor(event);");
+                    shell.gui.bodyel.onfocus = new Function("return shell.gui.focusinput(event);");
+                    shell.gui.bodyel.onclick = new Function("return shell.gui.focusinput(event);");
+                    shell.gui.bodyel.onkeydown = new Function("return shell.keyboard.keyDownHandler(event);")
+                } else {
+                    shell.gui.inputfield.onkeyup = shell.keyboard.mcursor;
+                    shell.gui.bodyel.onfocus = shell.gui.focusinput;
+                    shell.gui.bodyel.onclick = shell.gui.focusinput;
+                    shell.gui.bodyel.onkeydown = shell.keyboard.keyDownHandler
+                }
+            };
+            shell.gui.error = function (A) {
+                shell.ajax.stopall();
+                shell.gui.out("Error: " + A + "<br/> <br/>");
+                shell.gui.showinput();
+                shell.gui.focusinput();
+                shell.gui.scroll()
+            };
+            shell.gui.outln = function (A) {
+                shell.gui.out(A + "<br/>")
+            };
+            shell.gui.out = function (A) {
+                var B = document.createElement("div");
+                B.innerHTML = A;
+                shell.gui.outputel.appendChild(B)
+            };
+            shell.gui.less = function (A) {
+                return "<span class='less'>" + A + "</span>"
+            };
+            shell.gui.info = function (A) {
+                return "<span class='info'>" + A + "</span>"
+            };
+            shell.gui.clear = function () {
+                shell.gui.outputel.innerHTML = ""
+            };
+            shell.gui.showinput = function () {
+                shell.gui.inputel.style.display = "block"
+            };
+            shell.gui.hideinput = function () {
+                shell.gui.inputel.style.display = "none"
+            };
+            shell.gui.focusinput = function () {
+                var A = "";
+                if (document.selection) {
+                    A = document.selection.createRange().text
+                } else {
+                    if (window.getSelection) {
+                        A = window.getSelection().toString()
+                    }
+                }
+                if (A.length == 0) {
+                    document.f.q.value = document.f.q.value;
+                    if (shell.gui.inputel.style.display != "none") {
+                        document.f.q.focus()
+                    }
+                }
+            };
+            shell.gui.updateprompt = function () {
+                shell.gui.prompt = shell.config.user + "@" + shell.config.host + ":80/" + shell.config.mode + shell.config.pend;
+                shell.gui.promptel.innerHTML = shell.gui.prompt
+            };
+            shell.gui.scroll = function () {
+                window.scrollBy(0, 122500)
+            };
+            shell.gui.setstyle = function (B, E, D) {
+                try {
+                    var A = shell.gui.el(B);
+                    A.style[E] = D;
+                    return true
+                } catch (C) {
+                    return false
+                }
+            };
+            shell.gui.setstyleclass = function (D, B) {
+                var C = document.createElement("div");
+                var A = "<br style='line-height:0px;'/><style>" + D + " {" + B + "}</style>";
+                C.innerHTML = A;
+                shell.gui.bodyel.appendChild(C)
+            };
+            shell.lib.namespace("shell.set");
+            shell.set.base = function (name, def, txt, min, max) {
+                this.name = name;
+                this.txt = txt;
+                this.def = def;
+                (max) ? this.max = max : this.max = 2000;
+                (min) ? this.min = min : this.min = 0;
+                if (min && max) {
+                    this.txt += " (" + min + ".." + max + ")"
+                }
+                this.get = function () {
+                    return eval("" + this.name + ";")
+                };
+                this.set = function (val) {
+                    if (val >= this.min && val <= this.max) {
+                        eval("" + this.name + " = '" + val + "';")
+                    }
+                    return true
+                }
+            };
+            shell.set.list = new Object();
+            shell.set.list.lang = new shell.set.base("shell.config.lang", "en", "google default language");
+            shell.set.list.lang.set = function (A) {
+                if (shell.lang.reverse[A]) {
+                    shell.config.lang = A
+                } else {
+                    if (shell.lang.list[A]) {
+                        shell.config.lang = shell.lang.list[A]
+                    } else {
+                        return false
+                    }
+                }
+                return true
+            };
+            shell.set.list.results = new shell.set.base("shell.config.numres", "4", "number of results for google-searches", 1, 100);
+            shell.set.list.timeout = new shell.set.base("shell.config.timeout", "4", "timeout for ajax requests in seconds", 1, 100);
+            shell.set.list["style.bg"] = new shell.set.base("shell.config.bgcolor", "#000000", "shell background color");
+            shell.set.list["style.bg"].set = function (A) {
+                if (shell.gui.setstyle("body", "backgroundColor", A) && shell.gui.setstyle("inputfield", "backgroundColor", A)) {
+                    shell.config.bgcolor = A;
+                    return true
+                } else {
+                    return false
+                }
+            };
+            shell.set.list["style.fg"] = new shell.set.base("shell.config.fgcolor", "#ffffff", "shell font color");
+            shell.set.list["style.fg"].set = function (A) {
+                if (shell.gui.setstyle("body", "color", A) && shell.gui.setstyle("inputfield", "color", A)) {
+                    shell.config.fgcolor = A;
+                    return true
+                } else {
+                    return false
+                }
+            };
+            shell.set.list["style.hl"] = new shell.set.base("shell.config.hlcolor", "#009900", "shell highlight color");
+            shell.set.list["style.hl"].set = function (A) {
+                shell.gui.setstyleclass(".info", "color: " + A);
+                shell.gui.setstyleclass("a:visited.info", "color: " + A);
+                shell.config.hlcolor = A;
+                return true
+            };
+            shell.set.list["style.sh"] = new shell.set.base("shell.config.shcolor", "#ffffff", "shell 'shaded' color");
+            shell.set.list["style.sh"].set = function (A) {
+                shell.gui.setstyleclass(".less", "color: " + A);
+                shell.config.shcolor = A;
+                return true
+            };
+            shell.set.list["style.link"] = new shell.set.base("shell.config.linkcolor", "#ffffff", "shell link color");
+            shell.set.list["style.link"].set = function (A) {
+                shell.gui.setstyleclass("a", "color: " + A);
+                shell.config.linkcolor = A;
+                return true
+            };
+            shell.set.list["style.vlink"] = new shell.set.base("shell.config.vlinkcolor", "#ffffff", "shell visited link color");
+            shell.set.list["style.vlink"].set = function (A) {
+                shell.gui.setstyleclass("a:visited", "color: " + A);
+                shell.config.vlinkcolor = A;
+                return true
+            };
+            shell.set.list["place.width"] = new shell.set.base("shell.config.mapwidth", "300", "width of map image", 20, 600);
+            shell.set.list["place.height"] = new shell.set.base("shell.config.mapheight", "150", "height of map image", 20, 500);
+            shell.set.init = function (A, C) {
+                if (shell.config.user != "guest") {
+                    if (!A) {
+                        shell.ajax.query("http://goosh.appspot.com/cookie?callback=shell.set.init");
+                        return
+                    } else {
+                        if (shell.ajax.iscontext(A)) {
+                            shell.gui.outln("Loading remote settings...");
+                            shell.lib.cookie.getfromstr(document.cookie);
+                            shell.lib.cookie.getfromstr(C, true)
+                        }
+                    }
+                } else {
+                    shell.gui.outln("Loading local settings...");
+                    shell.lib.cookie.getfromstr(document.cookie)
+                }
+                var B = shell.lib.cookie.getall();
+                for (key in shell.set.list) {
+                    var D = false;
+                    if (B[key]) {
+                        D = B[key]
+                    }
+                    if (D && shell.set.list[key].set(D)) {
+                        shell.gui.outln("&nbsp;" + key + " => &quot;" + D + "&quot;.")
+                    } else {
+                        shell.set.list[key].set(shell.set.list[key].def)
+                    }
+                }
+                shell.gui.outln("");
+                shell.getquery()
+            };
+            shell.lib.namespace("shell.ajax");
+            shell.ajax.contexts = new Array();
+            shell.ajax.lastcontext = false;
+            shell.ajax.stopall = function () {
+                for (key in shell.ajax.contexts) {
+                    shell.ajax.iscontext(key)
+                }
+            };
+            shell.ajax.deletecontext = function (A) {
+                shell.gui.outln("Error: Operation timed out. " + A);
+                if (!document.all) {
+                    shell.gui.outln(shell.gui.less('If you use the noscript firefox-extension, add "ajax.googleapis.com" to the whitelist.'))
+                }
+                shell.gui.outln("");
+                shell.ajax.contexts[A] = false;
+                var B = document.getElementById(A);
+                if (B) {
+                    document.body.removeChild(B)
+                }
+                shell.gui.showinput();
+                shell.gui.focusinput();
+                shell.gui.scroll();
+                if (!document.all) {
+                    stop()
+                }
+            };
+            shell.ajax.iscontext = function (A) {
+                if (shell.ajax.contexts[A]) {
+                    clearTimeout(shell.ajax.contexts[A]);
+                    shell.ajax.contexts[A] = false;
+                    var B = document.getElementById(A);
+                    if (B) {
+                        document.body.removeChild(B)
+                    }
+                    return true
+                } else {
+                    return false
+                }
+            };
+            shell.ajax.getcontext = function (A) {
+                var C = new Date();
+                var B = C.getTime();
+                if (A) {
+                    B = A
+                }
+                shell.ajax.contexts[B] = setTimeout("shell.ajax.deletecontext('" + B + "');", 1000 * shell.config.timeout);
+                return B
+            };
+            shell.ajax.query = function (A, D) {
+                var B = "none";
+                if (!D) {
+                    B = shell.ajax.getcontext();
+                    shell.ajax.lastcontext = B;
+                    shell.gui.hideinput()
+                }
+                var C = document.createElement("script");
+                document.body.appendChild(C);
+                C.src = A + "&context=" + B + "&";
+                C.id = B
+            };
+            shell.lib.namespace("shell.config");
+            shell.config.apikey = "ABQIAAAA0cXSEVCNSwf_x74KTtPJMRQP4Q7D8MPck7bhT7upyfJTzVDU2BRxkUdd2AvzlDDF7DNUJI_Y4eB6Ug";
+            shell.config.user = "user";
+            shell.config.host = "iiitbh-acm.org";
+            shell.config.mode = "";
+            shell.config.pend = "$&nbsp;";
+            shell.config.numres = 4;
+            shell.config.timeout = 4;
+            shell.config.start = 0;
+            shell.config.lang = "en";
+            shell.config.urls = new Array();
+            shell.config.cmdlines = new Array();
+            shell.config.cmdqueue = new Array();
+            shell.lib.namespace("shell.keyboard");
+            shell.keyboard.suggestions = new Array();
+            shell.keyboard.suggpos = 1;
+            shell.keyboard.suggword = "";
+            shell.keyboard.hist = new Array();
+            shell.keyboard.histpos = 0;
+            shell.keyboard.histtemp = 0;
+            shell.keyboard.suggest = function (B) {
+                if (shell.keyboard.suggpos > shell.keyboard.suggestions[B].length) {
+                    shell.keyboard.suggpos = 1
+                }
+                if (shell.keyboard.suggestions[B][shell.keyboard.suggpos]) {
+                    shell.gui.inputfield.value = shell.keyboard.suggestions[B][shell.keyboard.suggpos]
+                }
+                var C = shell.gui.inputfield;
+                if (C.createTextRange) {
+                    var A = C.createTextRange();
+                    A.moveStart("character", B.length);
+                    A.select()
+                } else {
+                    if (C.setSelectionRange) {
+                        C.setSelectionRange(B.length, C.value.length)
+                    }
+                }
+            };
+            shell.keyboard.dummyac = function () {
+                this.Suggest_apply = function (C, D, A, B) {
+                    shell.keyboard.suggestions[D] = A;
+                    shell.keyboard.suggest(D);
+                    return true
+                }
+            };
+            window.google = new Array();
+            window.google.ac = new shell.keyboard.dummyac();
+            shell.keyboard.keyDownHandler = function (B) {
+                if (!B && window.event) {
+                    B = window.event
+                }
+                if (B) {
+                    _lastKeyCode = B.keyCode
+                }
+                if (B && B.keyCode == 9) {
+                    B.cancelBubble = true;
+                    B.returnValue = false;
+                    var C = shell.keyboard.suggword;
+                    if (C != "") {
+                        if (!shell.keyboard.suggestions[C]) {
+                            shell.keyboard.suggpos = 1;
+                            var A = document.createElement("script");
+                            document.body.appendChild(A);
+                            A.src = "http://www.google.com/complete/search?hl=" + shell.config.lang + "&js=true&qu=" + encodeURIComponent(C)
+                        } else {
+                            shell.keyboard.suggpos += 2;
+                            shell.keyboard.suggest(C)
+                        }
+                    }
+                    return false
+                }
+            };
+            shell.keyboard.mcursor = function (B) {
+                var A = B.keyCode;
+                if (shell.keyboard.hist.length > 0) {
+                    if (A == 38 || A == 40) {
+                        if (shell.keyboard.hist[shell.keyboard.histpos]) {
+                            shell.keyboard.hist[shell.keyboard.histpos] = shell.gui.inputfield.value
+                        } else {
+                            shell.keyboard.histtemp = shell.gui.inputfield.value
+                        }
+                    }
+                    if (A == 38) {
+                        shell.keyboard.histpos--;
+                        if (shell.keyboard.histpos < 0) {
+                            shell.keyboard.histpos = 0
+                        }
+                    } else {
+                        if (A == 40) {
+                            shell.keyboard.histpos++;
+                            if (shell.keyboard.histpos > shell.keyboard.hist.length) {
+                                shell.keyboard.histpos = shell.keyboard.hist.length
+                            }
+                        }
+                    }
+                    if (A == 38 || A == 40) {
+                        if (shell.keyboard.hist[shell.keyboard.histpos]) {
+                            shell.gui.inputfield.value = shell.keyboard.hist[shell.keyboard.histpos]
+                        } else {
+                            shell.gui.inputfield.value = shell.keyboard.histtemp
+                        }
+                    }
+                }
+                if (A != 9 && A != 13) {
+                    shell.keyboard.suggword = shell.gui.inputfield.value
+                }
+                if (A == 13) {
+                    shell.command()
+                }
+            };
+            shell.lib.namespace("shell.modules");
+            shell.lib.namespace("shell.module");
+            shell.lib.namespace("shell.modobj");
+            shell.modules.list = new Array();
+            shell.module.base = function () {
+                this.mode = false;
+                this.parameters = "";
+                this.help = "no helptext yet.";
+                this.helptext = "";
+                this.hasmore = false;
+                this.results = new Array()
+            };
+            shell.modules.register = function (name, base) {
+                if (!base) {
+                    base = "base"
+                }
+                eval("shell.module." + name + ".prototype = new shell.module." + base + ";shell.modobj." + name + " = new shell.module." + name + ';shell.modules.list["' + name + '"] = shell.modobj.' + name + ";")
+            };
