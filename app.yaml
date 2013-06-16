@@ -1,4 +1,4 @@
-application: test
+application: iiitbh-acm-cli
 version: 1
 runtime: python27
 api_version: 1
@@ -6,6 +6,12 @@ threadsafe: yes
 
 handlers:
 
+- url: /css
+  static_dir: css
+  
+- url: /js
+  static_dir: js
+  
 - url: /text
   static_dir: text
 
