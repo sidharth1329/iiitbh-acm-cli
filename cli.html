@@ -1,0 +1,1241 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    
+    <head>
+        <title>IIIT Bhubaneswar's ACM Student Chapter</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+        <style type="text/css">
+            html {
+                height: 100%;
+            }
+            body {
+                background: #fff;
+                font-size: 12px;
+                font-family: monospace;
+                height: 100%;
+                margin:0px;
+                padding: 0px;
+            }
+            form {
+                padding: 0px;
+                margin: 0px;
+            }
+            pre {
+                font-size: 12px;
+            }
+            br {
+                clear: both;
+            }
+            :focus {
+                outline: 0;
+            }
+            input.cmdline {
+                border: none;
+                border: 0px;
+                font-size: 12px;
+                font-family: monospace;
+                padding: 0px;
+                margin:0px;
+                width:100%;
+            }
+            table.inputtable {
+                width:100%;
+                vertical-align:top;
+            }
+            td.inputtd {
+                width:100%;
+            }
+            #input {
+                margin-left: 8px;'''
+                color: #666;
+                overflow: hidden;
+            }
+            #output {
+                margin-left: 8px;
+                margin-top: 8px;
+            }
+            .less {
+                color: black;
+            }
+			
+			.txt_file {
+                color: red;
+            }
+            table {
+                padding: 0px;
+                margin: 0px;
+                border-collapse: collapse;
+                border-spacing: 0px;
+            }
+            td {
+                padding: 0px;
+                margin: 0px;
+                vertical-align: top;
+                font-size: 12px;
+                font-family: monospace;
+            }
+            .help td {
+                padding-right: 25px;
+                font-size: 12px;
+            }
+            div#prompt {
+                display: inline;
+                white-space:nowrap;
+                padding:0px;
+                margin:0px;
+            }
+            img {
+                border: none;
+            }
+        </style>
+        <script type="text/javascript">
+            var shell = new Object();
+            shell.lib = new Object();
+            shell.lib.namespace = function (C) {
+                var D = C.split(".");
+                var A = window;
+                for (var B = 0; B < D.length; B++) {
+                    if (typeof A[D[B]] == "undefined") {
+                        A[D[B]] = new Object()
+                    }
+                    A = A[D[B]]
+                }
+            };
+            shell.lib.in_array = function (A, C) {
+                var B;
+                for (B = 0; B < A.length; B++) {
+                    if (A[B] == C) {
+                        return true
+                    }
+                }
+                return false
+            };
+            shell.lib.chop = function (A) {
+                if (A) {
+                    while (A.charAt(0) == " ") {
+                        A = A.substr(1)
+                    }
+                }
+                return A
+            };
+            shell.lib.namespace("shell.lib");
+            shell.lib.get = function (A) {
+                A = A.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+                var C = "[\\?&]" + A + "=([^&#]*)";
+                var D = new RegExp(C);
+                var B = D.exec(window.location.href);
+                if (B == null) {
+                    return ""
+                } else {
+                    return decodeURIComponent(B[1]).replace(/\+/g, " ")
+                }
+            };
+            shell.lib.namespace("shell.lib.cookie");
+            shell.lib.cookie.list = new Object();
+            shell.lib.cookie.getfromstr = function (G, D) {
+                var A = G.split(";");
+                for (var C = 0; C < A.length; C++) {
+                    var F = A[C].split("=");
+                    var B = shell.lib.chop(F[0]);
+                    var E = shell.lib.chop(F[1]);
+                    if (D && shell.lib.cookie.list[B] != E) {
+                        shell.lib.cookie.set(B, E, 365)
+                    }
+                    shell.lib.cookie.list[B] = E
+                }
+            };
+            shell.lib.cookie.get = function (A) {
+                return shell.lib.cookie.list[A]
+            };
+            shell.lib.cookie.set = function (B, D, F) {
+                var E = new Date();
+                var C = E.getTime() + (F * 24 * 60 * 60 * 1000);
+                E.setTime(C);
+                document.cookie = B + "=" + D + "; expires=" + E.toGMTString();
+                if (shell.config.user != "guest" && B != "loggedin") {
+                    var A = "";
+                    if (F < 0) {
+                        A = "&del=1"
+                    }
+                    shell.ajax.query("http://goosh.appspot.com/cookie?key=" + encodeURIComponent(B) + "&val=" + encodeURIComponent(D) + "&callback=shell.lib.cookie.fetch" + A, true)
+                }
+                shell.lib.cookie.list[B] = D;
+                return D
+            };
+            shell.lib.cookie.del = function (A) {
+                shell.lib.cookie.set(A, "", -100);
+                shell.lib.cookie.list[A] = null
+            };
+            shell.lib.cookie.getall = function () {
+                return shell.lib.cookie.list
+            };
+            shell.lib.namespace("shell.lang");
+            shell.lang.list = {
+                arabic: "ar",
+                bulgarian: "bg",
+                catalan: "ca",
+                chinese: "zh",
+                chinese_simplified: "zh-cn",
+                chinese_traditional: "zh-tw",
+                croatian: "hr",
+                czech: "cs",
+                danish: "da",
+                dutch: "nl",
+                english: "en",
+                estonian: "et",
+                filipino: "tl",
+                finnish: "fi",
+                french: "fr",
+                german: "de",
+                greek: "el",
+                hebrew: "iw",
+                hindi: "hi",
+                hungarian: "hu",
+                indonesian: "id",
+                italian: "it",
+                japanese: "ja",
+                korean: "ko",
+                latvian: "lv",
+                lithuanian: "lt",
+                norwegian: "no",
+                persian: "fa",
+                polish: "pl",
+                portuguese: "pt",
+                romanian: "ro",
+                russian: "ru",
+                serbian: "sr",
+                slovak: "sk",
+                slovenian: "sl",
+                spanish: "es",
+                swedish: "sv",
+                thai: "th",
+                turkish: "tr",
+                ukrainian: "uk",
+                vietnamese: "vi"
+            };
+            shell.lang.reverse = new Object();
+            for (key in shell.lang.list) {
+                shell.lang.reverse[shell.lang.list[key]] = key
+            }
+            shell.lib.namespace("shell.gui");
+            shell.gui.inputel = false;
+            shell.gui.outputel = false;
+            shell.gui.promptel = false;
+            shell.gui.inputfield = false;
+            shell.gui.bodyel = false;
+            shell.gui.el = function (A) {
+                return document.getElementById(A)
+            };
+            shell.gui.init = function () {
+                shell.gui.inputel = document.getElementById("input");
+                shell.gui.outputel = document.getElementById("output");
+                shell.gui.promptel = document.getElementById("prompt");
+                shell.gui.inputfield = document.getElementById("inputfield");
+                shell.gui.bodyel = document.getElementById("body");
+                if (shell.gui.inputfield.createTextRange) {
+                    shell.gui.inputfield.onkeyup = new Function("return shell.keyboard.mcursor(event);");
+                    shell.gui.bodyel.onfocus = new Function("return shell.gui.focusinput(event);");
+                    shell.gui.bodyel.onclick = new Function("return shell.gui.focusinput(event);");
+                    shell.gui.bodyel.onkeydown = new Function("return shell.keyboard.keyDownHandler(event);")
+                } else {
+                    shell.gui.inputfield.onkeyup = shell.keyboard.mcursor;
+                    shell.gui.bodyel.onfocus = shell.gui.focusinput;
+                    shell.gui.bodyel.onclick = shell.gui.focusinput;
+                    shell.gui.bodyel.onkeydown = shell.keyboard.keyDownHandler
+                }
+            };
+            shell.gui.error = function (A) {
+                shell.ajax.stopall();
+                shell.gui.out("Error: " + A + "<br/> <br/>");
+                shell.gui.showinput();
+                shell.gui.focusinput();
+                shell.gui.scroll()
+            };
+            shell.gui.outln = function (A) {
+                shell.gui.out(A + "<br/>")
+            };
+            shell.gui.out = function (A) {
+                var B = document.createElement("div");
+                B.innerHTML = A;
+                shell.gui.outputel.appendChild(B)
+            };
+            shell.gui.less = function (A) {
+                return "<span class='less'>" + A + "</span>"
+            };
+            shell.gui.info = function (A) {
+                return "<span class='info'>" + A + "</span>"
+            };
+            shell.gui.clear = function () {
+                shell.gui.outputel.innerHTML = ""
+            };
+            shell.gui.showinput = function () {
+                shell.gui.inputel.style.display = "block"
+            };
+            shell.gui.hideinput = function () {
+                shell.gui.inputel.style.display = "none"
+            };
+            shell.gui.focusinput = function () {
+                var A = "";
+                if (document.selection) {
+                    A = document.selection.createRange().text
+                } else {
+                    if (window.getSelection) {
+                        A = window.getSelection().toString()
+                    }
+                }
+                if (A.length == 0) {
+                    document.f.q.value = document.f.q.value;
+                    if (shell.gui.inputel.style.display != "none") {
+                        document.f.q.focus()
+                    }
+                }
+            };
+            shell.gui.updateprompt = function () {
+                shell.gui.prompt = shell.config.user + "@" + shell.config.host + ":80/" + shell.config.mode + shell.config.pend;
+                shell.gui.promptel.innerHTML = shell.gui.prompt
+            };
+            shell.gui.scroll = function () {
+                window.scrollBy(0, 122500)
+            };
+            shell.gui.setstyle = function (B, E, D) {
+                try {
+                    var A = shell.gui.el(B);
+                    A.style[E] = D;
+                    return true
+                } catch (C) {
+                    return false
+                }
+            };
+            shell.gui.setstyleclass = function (D, B) {
+                var C = document.createElement("div");
+                var A = "<br style='line-height:0px;'/><style>" + D + " {" + B + "}</style>";
+                C.innerHTML = A;
+                shell.gui.bodyel.appendChild(C)
+            };
+            shell.lib.namespace("shell.set");
+            shell.set.base = function (name, def, txt, min, max) {
+                this.name = name;
+                this.txt = txt;
+                this.def = def;
+                (max) ? this.max = max : this.max = 2000;
+                (min) ? this.min = min : this.min = 0;
+                if (min && max) {
+                    this.txt += " (" + min + ".." + max + ")"
+                }
+                this.get = function () {
+                    return eval("" + this.name + ";")
+                };
+                this.set = function (val) {
+                    if (val >= this.min && val <= this.max) {
+                        eval("" + this.name + " = '" + val + "';")
+                    }
+                    return true
+                }
+            };
+            shell.set.list = new Object();
+            shell.set.list.lang = new shell.set.base("shell.config.lang", "en", "google default language");
+            shell.set.list.lang.set = function (A) {
+                if (shell.lang.reverse[A]) {
+                    shell.config.lang = A
+                } else {
+                    if (shell.lang.list[A]) {
+                        shell.config.lang = shell.lang.list[A]
+                    } else {
+                        return false
+                    }
+                }
+                return true
+            };
+            shell.set.list.results = new shell.set.base("shell.config.numres", "4", "number of results for google-searches", 1, 100);
+            shell.set.list.timeout = new shell.set.base("shell.config.timeout", "4", "timeout for ajax requests in seconds", 1, 100);
+            shell.set.list["style.bg"] = new shell.set.base("shell.config.bgcolor", "#000000", "shell background color");
+            shell.set.list["style.bg"].set = function (A) {
+                if (shell.gui.setstyle("body", "backgroundColor", A) && shell.gui.setstyle("inputfield", "backgroundColor", A)) {
+                    shell.config.bgcolor = A;
+                    return true
+                } else {
+                    return false
+                }
+            };
+            shell.set.list["style.fg"] = new shell.set.base("shell.config.fgcolor", "#ffffff", "shell font color");
+            shell.set.list["style.fg"].set = function (A) {
+                if (shell.gui.setstyle("body", "color", A) && shell.gui.setstyle("inputfield", "color", A)) {
+                    shell.config.fgcolor = A;
+                    return true
+                } else {
+                    return false
+                }
+            };
+            shell.set.list["style.hl"] = new shell.set.base("shell.config.hlcolor", "#009900", "shell highlight color");
+            shell.set.list["style.hl"].set = function (A) {
+                shell.gui.setstyleclass(".info", "color: " + A);
+                shell.gui.setstyleclass("a:visited.info", "color: " + A);
+                shell.config.hlcolor = A;
+                return true
+            };
+            shell.set.list["style.sh"] = new shell.set.base("shell.config.shcolor", "#ffffff", "shell 'shaded' color");
+            shell.set.list["style.sh"].set = function (A) {
+                shell.gui.setstyleclass(".less", "color: " + A);
+                shell.config.shcolor = A;
+                return true
+            };
+            shell.set.list["style.link"] = new shell.set.base("shell.config.linkcolor", "#ffffff", "shell link color");
+            shell.set.list["style.link"].set = function (A) {
+                shell.gui.setstyleclass("a", "color: " + A);
+                shell.config.linkcolor = A;
+                return true
+            };
+            shell.set.list["style.vlink"] = new shell.set.base("shell.config.vlinkcolor", "#ffffff", "shell visited link color");
+            shell.set.list["style.vlink"].set = function (A) {
+                shell.gui.setstyleclass("a:visited", "color: " + A);
+                shell.config.vlinkcolor = A;
+                return true
+            };
+            shell.set.list["place.width"] = new shell.set.base("shell.config.mapwidth", "300", "width of map image", 20, 600);
+            shell.set.list["place.height"] = new shell.set.base("shell.config.mapheight", "150", "height of map image", 20, 500);
+            shell.set.init = function (A, C) {
+                if (shell.config.user != "guest") {
+                    if (!A) {
+                        shell.ajax.query("http://goosh.appspot.com/cookie?callback=shell.set.init");
+                        return
+                    } else {
+                        if (shell.ajax.iscontext(A)) {
+                            shell.gui.outln("Loading remote settings...");
+                            shell.lib.cookie.getfromstr(document.cookie);
+                            shell.lib.cookie.getfromstr(C, true)
+                        }
+                    }
+                } else {
+                    shell.gui.outln("Loading local settings...");
+                    shell.lib.cookie.getfromstr(document.cookie)
+                }
+                var B = shell.lib.cookie.getall();
+                for (key in shell.set.list) {
+                    var D = false;
+                    if (B[key]) {
+                        D = B[key]
+                    }
+                    if (D && shell.set.list[key].set(D)) {
+                        shell.gui.outln("&nbsp;" + key + " => &quot;" + D + "&quot;.")
+                    } else {
+                        shell.set.list[key].set(shell.set.list[key].def)
+                    }
+                }
+                shell.gui.outln("");
+                shell.getquery()
+            };
+            shell.lib.namespace("shell.ajax");
+            shell.ajax.contexts = new Array();
+            shell.ajax.lastcontext = false;
+            shell.ajax.stopall = function () {
+                for (key in shell.ajax.contexts) {
+                    shell.ajax.iscontext(key)
+                }
+            };
+            shell.ajax.deletecontext = function (A) {
+                shell.gui.outln("Error: Operation timed out. " + A);
+                if (!document.all) {
+                    shell.gui.outln(shell.gui.less('If you use the noscript firefox-extension, add "ajax.googleapis.com" to the whitelist.'))
+                }
+                shell.gui.outln("");
+                shell.ajax.contexts[A] = false;
+                var B = document.getElementById(A);
+                if (B) {
+                    document.body.removeChild(B)
+                }
+                shell.gui.showinput();
+                shell.gui.focusinput();
+                shell.gui.scroll();
+                if (!document.all) {
+                    stop()
+                }
+            };
+            shell.ajax.iscontext = function (A) {
+                if (shell.ajax.contexts[A]) {
+                    clearTimeout(shell.ajax.contexts[A]);
+                    shell.ajax.contexts[A] = false;
+                    var B = document.getElementById(A);
+                    if (B) {
+                        document.body.removeChild(B)
+                    }
+                    return true
+                } else {
+                    return false
+                }
+            };
+            shell.ajax.getcontext = function (A) {
+                var C = new Date();
+                var B = C.getTime();
+                if (A) {
+                    B = A
+                }
+                shell.ajax.contexts[B] = setTimeout("shell.ajax.deletecontext('" + B + "');", 1000 * shell.config.timeout);
+                return B
+            };
+            shell.ajax.query = function (A, D) {
+                var B = "none";
+                if (!D) {
+                    B = shell.ajax.getcontext();
+                    shell.ajax.lastcontext = B;
+                    shell.gui.hideinput()
+                }
+                var C = document.createElement("script");
+                document.body.appendChild(C);
+                C.src = A + "&context=" + B + "&";
+                C.id = B
+            };
+            shell.lib.namespace("shell.config");
+            shell.config.apikey = "ABQIAAAA0cXSEVCNSwf_x74KTtPJMRQP4Q7D8MPck7bhT7upyfJTzVDU2BRxkUdd2AvzlDDF7DNUJI_Y4eB6Ug";
+            shell.config.user = "user";
+            shell.config.host = "iiitbh-acm.org";
+            shell.config.mode = "";
+            shell.config.pend = "$&nbsp;";
+            shell.config.numres = 4;
+            shell.config.timeout = 4;
+            shell.config.start = 0;
+            shell.config.moreobj;
+            shell.config.lang = "en";
+            shell.config.urls = new Array();
+            shell.config.cmdlines = new Array();
+            shell.config.cmdqueue = new Array();
+            shell.lib.namespace("shell.keyboard");
+            shell.keyboard.suggestions = new Array();
+            shell.keyboard.suggpos = 1;
+            shell.keyboard.suggword = "";
+            shell.keyboard.hist = new Array();
+            shell.keyboard.histpos = 0;
+            shell.keyboard.histtemp = 0;
+            shell.keyboard.suggest = function (B) {
+                if (shell.keyboard.suggpos > shell.keyboard.suggestions[B].length) {
+                    shell.keyboard.suggpos = 1
+                }
+                if (shell.keyboard.suggestions[B][shell.keyboard.suggpos]) {
+                    shell.gui.inputfield.value = shell.keyboard.suggestions[B][shell.keyboard.suggpos]
+                }
+                var C = shell.gui.inputfield;
+                if (C.createTextRange) {
+                    var A = C.createTextRange();
+                    A.moveStart("character", B.length);
+                    A.select()
+                } else {
+                    if (C.setSelectionRange) {
+                        C.setSelectionRange(B.length, C.value.length)
+                    }
+                }
+            };
+            shell.keyboard.dummyac = function () {
+                this.Suggest_apply = function (C, D, A, B) {
+                    shell.keyboard.suggestions[D] = A;
+                    shell.keyboard.suggest(D);
+                    return true
+                }
+            };
+            window.google = new Array();
+            window.google.ac = new shell.keyboard.dummyac();
+            shell.keyboard.keyDownHandler = function (B) {
+                if (!B && window.event) {
+                    B = window.event
+                }
+                if (B) {
+                    _lastKeyCode = B.keyCode
+                }
+                if (B && B.keyCode == 9) {
+                    B.cancelBubble = true;
+                    B.returnValue = false;
+                    var C = shell.keyboard.suggword;
+                    if (C != "") {
+                        if (!shell.keyboard.suggestions[C]) {
+                            shell.keyboard.suggpos = 1;
+                            var A = document.createElement("script");
+                            document.body.appendChild(A);
+                            A.src = "http://www.google.com/complete/search?hl=" + shell.config.lang + "&js=true&qu=" + encodeURIComponent(C)
+                        } else {
+                            shell.keyboard.suggpos += 2;
+                            shell.keyboard.suggest(C)
+                        }
+                    }
+                    return false
+                }
+            };
+            shell.keyboard.mcursor = function (B) {
+                var A = B.keyCode;
+                if (shell.keyboard.hist.length > 0) {
+                    if (A == 38 || A == 40) {
+                        if (shell.keyboard.hist[shell.keyboard.histpos]) {
+                            shell.keyboard.hist[shell.keyboard.histpos] = shell.gui.inputfield.value
+                        } else {
+                            shell.keyboard.histtemp = shell.gui.inputfield.value
+                        }
+                    }
+                    if (A == 38) {
+                        shell.keyboard.histpos--;
+                        if (shell.keyboard.histpos < 0) {
+                            shell.keyboard.histpos = 0
+                        }
+                    } else {
+                        if (A == 40) {
+                            shell.keyboard.histpos++;
+                            if (shell.keyboard.histpos > shell.keyboard.hist.length) {
+                                shell.keyboard.histpos = shell.keyboard.hist.length
+                            }
+                        }
+                    }
+                    if (A == 38 || A == 40) {
+                        if (shell.keyboard.hist[shell.keyboard.histpos]) {
+                            shell.gui.inputfield.value = shell.keyboard.hist[shell.keyboard.histpos]
+                        } else {
+                            shell.gui.inputfield.value = shell.keyboard.histtemp
+                        }
+                    }
+                }
+                if (A != 9 && A != 13) {
+                    shell.keyboard.suggword = shell.gui.inputfield.value
+                }
+                if (A == 13) {
+                    shell.command()
+                }
+            };
+            shell.lib.namespace("shell.modules");
+            shell.lib.namespace("shell.module");
+            shell.lib.namespace("shell.modobj");
+            shell.modules.list = new Array();
+            shell.module.base = function () {
+                this.mode = false;
+                this.parameters = "";
+                this.help = "no helptext yet.";
+                this.helptext = "";
+                this.hasmore = false;
+                this.results = new Array()
+            };
+            shell.modules.register = function (name, base) {
+                if (!base) {
+                    base = "base"
+                }
+                eval("shell.module." + name + ".prototype = new shell.module." + base + ";shell.modobj." + name + " = new shell.module." + name + ';shell.modules.list["' + name + '"] = shell.modobj.' + name + ";")
+            };
+            shell.module.clear = function () {
+                this.name = "clear";
+                this.aliases = new Array("clear", "c");
+                this.help = "clear the screen";
+                this.call = function (A) {
+                    shell.gui.clear()
+                }
+            };
+            shell.modules.register("clear");
+
+		shell.module.posts = function () {
+                this.name = "posts";
+                this.aliases = new Array("posts");
+                this.mode = true;
+                this.help = "A directory containing website posts as text files";
+                this.helptext = "<span class='info'>examples:</span><br/><i>cd posts</i>  - Changes the directory to posts, where you can use 'ls' to list all the website posts..<br/>"
+            };
+            shell.modules.register("posts");
+
+            shell.module.help = function () {
+                this.name = "help";
+                this.aliases = new Array("help", "man", "h", "?");
+                this.help = "displays help text";
+                this.helptext = "";
+                this.parameters = "[command]";
+                this.call = function (C) {
+                    if (C[0] == "shell") {
+                        C[0] = false
+                    }
+                    var B = "<span class='info'>help";
+                    if (C[0]) {
+                        B += ": " + C[0]
+                    }
+                    B += "</span><br/> <br/>";
+                    if (C[0] && !shell.modules.list[C[0]]) {
+                        shell.gui.error("command &quot;" + C[0] + "&quot; not found.");
+                        return false
+                    }
+                    B += "<table border='0' class='help'>";
+                    B += "<tr><td class='less'>command</td><td class='less'>aliases</td><td class='less'>parameters</td><td class='less'>function</td></tr>";
+                    var A;
+                    for (key in shell.modules.list) {
+                        if (!C[0] || key == C[0]) {
+                            A = shell.modules.list[key];
+                            B += "<tr><td";
+                            if (A.mode) {
+                                B += " class='info'"
+                            }
+                            B += ">";
+                            B += "" + A.name + "</td><td>";
+                            if (A.aliases.length > 1) {
+                                B += "(";
+                                for (i = 0; i < A.aliases.length; i++) {
+                                    if (A.aliases[i] != A.name) {
+                                        B += A.aliases[i];
+                                        B += ","
+                                    }
+                                }
+                                B = B.substr(0, B.length - 1);
+                                B += ")"
+                            }
+                            B += "</td><td>";
+                            if (A.parameters) {
+                                B += A.parameters
+                            }
+                            B += "</td><td>";
+                            B += "" + A.help + "\n";
+                            B += "</td></tr>"
+                        }
+                    }
+                    B += "</table>";
+                    if (C[0]) {
+                        B += " <br/>";
+                        B += A.helptext;
+                        B += " <br/>"
+                    } else {
+                        B += " <br/>";
+                        B += "- Enter green commands without parameters to change default mode.<br/>";
+                        B += "- Anything that's not a command will stay on the standard input without any error.<br/>";
+                        B += "- Aliases will expand to commands. Numbers will expand to corresponding search results.<br/>";
+                        B += "- Use cursor up and down for command history.<br/>";
+                        B += "- Enter keyword and hit the tab-key for tab-completion.<br/>";
+                        B += "- Commands marked with * are experimental, use them with care and please report any bugs.<br/>";
+                        B += "<br/>"
+                    }
+                    shell.gui.outln(B)
+                }
+            };
+            shell.modules.register("help");
+            shell.module.cd = function () {
+                this.name = "cd";
+                this.aliases = new Array("cd");
+                this.parameters = "&lt;command>";
+                this.help = "Change directory";
+                this.helptext = "This exists just for convenience. Use &lt;command> without parameters instead.<br/>";
+                this.call = function (A) {
+                    if (!A[0]) {
+                        A[0] = shell.config.mode;
+                    }
+                    if (A[0] && A[0] == "..") {
+                        shell.config.mode = "";
+			shell.gui.updateprompt();
+			return;
+                    }
+                    if (A[0] && shell.modules.list[A[0]] && shell.modules.list[A[0]].mode) {
+                        var B = shell.modules.list[A[0]];
+                        shell.config.mode = B.name;
+                        shell.gui.updateprompt();
+                    } else {
+                        shell.gui.error("command not found or command is not a mode.");
+                    }
+                }
+            };
+            shell.modules.register("cd");
+			
+			function loadXMLDoc(file){
+				var xmlhttp;
+				if (window.XMLHttpRequest){
+					// code for IE7+, Firefox, Chrome, Opera, Safari
+					xmlhttp=new XMLHttpRequest();
+				}
+				else{
+					// code for IE6, IE5
+					xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+				}
+				xmlhttp.onreadystatechange=function(){
+					switch(xmlhttp.readyState){
+						case 4:		if(xmlhttp.status==200){
+										var text = xmlhttp.responseText;
+										shell.gui.outln('<div style="color:cyan"><pre>'+text+'</pre></div>');
+										break;
+									}
+						case 404:	shell.gui.error("File not found.")
+									break;					
+					}
+				}
+				xmlhttp.open("GET","./text/"+file,true);
+				xmlhttp.send(null);
+			}
+			shell.module.cat = function () {
+                this.name = "cat";
+                this.aliases = new Array("cat", "pr");
+                this.parameters = "&lt;command>";
+                this.help = "UNIX text viewer";
+                this.helptext = "This exists just for convenience. Use &lt;command> without parameters instead.<br/>";
+                this.call = function (A) {
+					loadXMLDoc(A[0]);					
+                }
+            };
+            shell.modules.register("cat");
+
+ 		shell.module.startx = function (){
+                this.name = "startx";
+                this.aliases = new Array("startx", "x");
+                this.parameters = "[command]";
+                this.help = "Open X Windows System";
+                this.call = function (args){
+					window.location.href = "http://gui.iiitbh-acm.org";
+				}
+        };
+            shell.modules.register("startx");
+			
+		shell.module.pwd = function (){
+                this.name = "pwd";
+                this.aliases = new Array("pwd");
+                this.parameters = "[command]";
+                this.help = "Displays the present working directory";
+                this.call = function (args){
+					shell.gui.outln("/usr/etc/home/"+shell.config.mode);
+				}
+        };
+        shell.modules.register("pwd");
+			
+		shell.module.who = function (){
+			this.name = "who";
+			this.aliases = new Array("who", "whoami", "who am i");
+			this.parameters = "[command]";
+			this.help = "Displays user details";
+			this.call = function (args){
+				var BrowserDetect = {
+					init: function () {
+						this.browser = this.searchString(this.dataBrowser) || "An unknown browser";
+						this.version = this.searchVersion(navigator.userAgent)
+						|| this.searchVersion(navigator.appVersion)
+						|| "an unknown version";
+						this.OS = this.searchString(this.dataOS) || "an unknown OS";
+					},
+					searchString: function (data) {
+						for (var i=0;i<data.length;i++)	{
+							var dataString = data[i].string;
+							var dataProp = data[i].prop;
+							this.versionSearchString = data[i].versionSearch || data[i].identity;
+							if (dataString) {
+								if (dataString.indexOf(data[i].subString) != -1)
+									return data[i].identity;
+							}
+							else if (dataProp)
+								return data[i].identity;
+						}
+					},
+					searchVersion: function (dataString) {
+						var index = dataString.indexOf(this.versionSearchString);
+						if (index == -1) return;
+						return parseFloat(dataString.substring(index+this.versionSearchString.length+1));
+					},
+					dataBrowser: [
+						{
+							string: navigator.userAgent,
+							subString: "Chrome",
+							identity: "Chrome"
+						},
+						{ 	string: navigator.userAgent,
+							subString: "OmniWeb",
+							versionSearch: "OmniWeb/",
+							identity: "OmniWeb"
+						},
+						{
+							string: navigator.vendor,
+							subString: "Apple",
+							identity: "Safari",
+							versionSearch: "Version"
+						},
+						{
+							prop: window.opera,
+							identity: "Opera",
+							versionSearch: "Version"
+						},
+						{
+							string: navigator.vendor,
+							subString: "iCab",
+							identity: "iCab"
+						},
+						{
+							string: navigator.vendor,
+							subString: "KDE",
+							identity: "Konqueror"
+						},
+						{
+							string: navigator.userAgent,
+							subString: "Firefox",
+							identity: "Firefox"
+						},
+						{
+							string: navigator.vendor,
+							subString: "Camino",
+							identity: "Camino"
+						},
+						{		// for newer Netscapes (6+)
+							string: navigator.userAgent,
+							subString: "Netscape",
+							identity: "Netscape"
+						},
+						{
+							string: navigator.userAgent,
+							subString: "MSIE",
+							identity: "Explorer",
+							versionSearch: "MSIE"
+						},
+						{
+							string: navigator.userAgent,
+							subString: "Gecko",
+							identity: "Mozilla",
+							versionSearch: "rv"
+						},
+						{ 		// for older Netscapes (4-)
+							string: navigator.userAgent,
+							subString: "Mozilla",
+							identity: "Netscape",
+							versionSearch: "Mozilla"
+						}
+				],
+				dataOS : [
+					{
+						string: navigator.platform,
+						subString: "Win",
+						identity: "Windows"
+					},
+					{
+						string: navigator.platform,
+						subString: "Mac",
+						identity: "Mac"
+					},
+					{
+						   string: navigator.userAgent,
+						   subString: "iPhone",
+						   identity: "iPhone/iPod"
+					},
+					{
+						string: navigator.platform,
+						subString: "Linux",
+						identity: "Linux"
+					}
+				]
+
+			};
+			BrowserDetect.init();
+			shell.gui.outln("Browser name: "+BrowserDetect.browser+"<br>Browser version: "+BrowserDetect.version+"<br>Operating System: "+BrowserDetect.OS+"<br>");
+			}
+        };
+        shell.modules.register("who");
+		
+            shell.module.ls = function () {
+                this.name = "ls";
+                this.aliases = new Array("ls");
+                this.help = "lists commands";
+                this.helptext = "this exists just for convenience. Use <span class='info'>help</span> for help.<br/>";
+                this.parameters = "[command]";
+                this.call = function (C) {
+                    var B = "";
+                    if (C[0] && !shell.modules.list[C[0]]) {
+                        shell.gui.error("command &quot;" + C[0] + "&quot; not found.");
+                        return false
+                    }
+                    B += "<table border='0' class='help'><tr>";
+                    var A;
+                    var D = 0;
+			
+		    if(shell.config.mode == "posts"){
+		    B+="<td class='txt_file'>ACM_Officer_Elections_2012.txt</td>";
+		    }
+		    else{
+                    for (key in shell.modules.list) {
+					
+                        if (C.length == 0 || key == C[0]) {
+                            A = shell.modules.list[key];
+                            B += "<td";
+                            if (A.mode) {
+                                B += " class='info'"
+                            }
+							else if((A.name).search('.txt')!=-1){
+								B += " class='txt_file'";
+							}
+                            B += ">" + A.name + "</td><td>";
+                            if (D == 5) {
+                                D = 0;
+                                B += "</tr><tr>"
+                            }
+                            D++
+                        }
+                    }}
+                    B += "</tr></table>";
+                    shell.gui.outln(B)
+                }
+            };
+            shell.modules.register("ls");
+
+            shell.module.load = function () {
+                this.name = "load";
+                this.aliases = new Array("load");
+                this.help = "load an extension";
+                this.parameters = "&lt;extension_url>";
+                this.call = function (B) {
+                    if (B[0]) {
+                        var A = B[0];
+                        if (A.indexOf("http://") == -1 && A.indexOf("https://")) {
+                            A = "http://shell.org/ext/" + A + ".js"
+                        }
+                        var C = document.createElement("script");
+                        document.body.appendChild(C);
+                        C.src = A
+                    }
+                }
+            };
+            shell.modules.register("load");
+            shell.module.calculate = function () {
+                this.name = "calculate";
+                this.aliases = new Array("calculate", "calc");
+                this.help = "evaluate a mathematical expression";
+                this.parameters = "[mathematical expression]";
+                this.call = function (args) {
+                    var out = "";
+                    var exp = args.join(" ");
+                    var expin = exp;
+                    if (exp.match(/^[0-9\+\-\/\*\. \^\(\)]+$/)) {
+                        exp = exp.replace(/([0-9]+)\^([0-9]+)/g, "Math.pow($1,$2)");
+                        shell.gui.outln(expin + " = " + eval(exp))
+                    } else {
+                        shell.gui.error("could not calculate that.");
+                        return false
+                    }
+                }
+            };
+            shell.modules.register("calculate");
+            shell.module.settings = function () {
+                this.name = "settings";
+                this.aliases = new Array("settings", "set");
+                this.help = "edit settings";
+                this.parameters = "[name] [value]";
+                this.helptext = "<span class='info'>examples:</span><br/><i>set lang de</i>  - sets language to german<br/><i>set lang</i>  - displays value of lang-setting<br/><i>settings</i>  - displays all settings<br/><i>settings reset</i>  - reset all settings to default values<br/>";
+                this.call = function (B) {
+                    var A = "";
+                    if (B[0] && B[1]) {
+                        if (shell.set.list[B[0]] && shell.set.list[B[0]].set(B[1])) {
+                            if (shell.set.list[B[0]].get() == shell.set.list[B[0]].def) {
+                                shell.lib.cookie.del(B[0])
+                            } else {
+                                shell.lib.cookie.set(B[0], shell.set.list[B[0]].get(), 365)
+                            }
+                            B[1] = false
+                        } else {
+                            shell.gui.error("Could not set " + B[0] + " to &quot;" + B[1] + "&quot;");
+                            return false
+                        }
+                    }
+                    if (B[0] && !B[1]) {
+                        if (B[0] == "reset") {
+                            for (key in shell.set.list) {
+                                shell.set.list[key].set(shell.set.list[key].def);
+                                shell.lib.cookie.del(key)
+                            }
+                            A += "Settings where set to default values."
+                        } else {
+                            if (shell.set.list[B[0]]) {
+                                A += B[0] + " is set to &quot;" + shell.set.list[B[0]].get() + "&quot;.<br>"
+                            } else {
+                                shell.gui.error("No setting with that name.")
+                            }
+                        }
+                    } else {
+                        A += "<table border='0' class='help'><tr>";
+                        A += "<tr><td class='less'>name</td><td class='less'>value</td><td class='less'>default</td><td class='less'>help</td></tr>";
+                        for (key in shell.set.list) {
+                            A += "<td";
+                            A += " class='info'";
+                            A += ">" + key + "</td>";
+                            A += "<td>" + shell.set.list[key].get() + "</td>";
+                            A += "<td class='less'>" + shell.set.list[key].def + "</td>";
+                            A += "<td class='less'>" + shell.set.list[key].txt + "</td>";
+                            A += "</tr><tr>"
+                        }
+                        A += "</tr></table>"
+                    }
+                    shell.gui.outln(A)
+                }
+            };
+            shell.modules.register("settings");
+			
+			shell.module.about = function () {
+				this.name = "about.txt";
+				this.aliases = new Array("about.txt");
+				this.help = "Text file containing information about the Chapter. Use with 'cat command'.";
+			};
+			shell.modules.register("about");
+			
+			shell.module.notices = function () {
+				this.name = "notices.txt";
+				this.aliases = new Array("notices.txt");
+				this.help = "Text file containing notices and announcements of the Chapter. Use with 'cat command'.";
+			};
+			shell.modules.register("notices");
+
+			shell.module.members = function () {
+				this.name = "members.txt";
+				this.aliases = new Array("members.txt");
+				this.help = "Text file containing names and contacts of current officers and all other members of our ACM Student Chapter. Use with 'cat command'.";
+			};
+			shell.modules.register("members");			
+			
+            shell.command = function () {
+                var F = shell.gui.inputfield.value;
+                var G = F.split(" ");
+                var C = new Array();
+                for (i = 0; i < G.length; i++) {
+                    if (G[i] != "") {
+                        if (G[0] != "set" && G[0] != "settings") {
+                            var B = 1;
+                            while (shell.config.urls[B]) {
+                                if (G[i] == B) {
+                                    G[i] = shell.config.urls[B];
+                                    if (i == 0) {
+                                        C.push("open")
+                                    }
+                                }
+                                B++
+                            }
+                        }
+                        C.push(G[i])
+                    }
+                }
+                var E;
+				
+                for (key in shell.modules.list) {
+                    if (shell.lib.in_array(shell.modules.list[key].aliases, C[0])) {
+                        E = shell.modules.list[key];
+                        C[0] = E.name;
+                        break
+                    }
+                }
+                if (C.length == 0 && shell.config.moreobj && shell.config.moreobj.hasmore) {
+                    E = shell.modules.list.more;
+                    C[0] = "more"
+                }
+                var A = C.join(" ");
+                if (encodeURIComponent(A) != shell.lib.get("q") && A != "more" && A != "logout") {
+                    window.location.hash = "#" + encodeURIComponent(A)
+                }
+                shell.gui.out("<div class='input'><span class='less'>" + shell.gui.prompt + "</span>" + A.replace(/</g, "&lt;") + "</div>");
+                if (A != "") {
+                    shell.keyboard.hist[shell.keyboard.hist.length] = A;
+                    shell.keyboard.histpos = shell.keyboard.hist.length
+                }
+                var D = "";
+                if (!E) {
+                    E = shell.modules.list[shell.config.mode]
+                } else {
+                    for (i = 0; i < C.length - 1; i++) {
+                        C[i] = C[i + 1]
+                    }
+                    C.pop()
+                }
+                if (E.more && C.length > 0) {
+                    this.config.moreobj = E
+                }
+                if (C.length == 0 && E.mode) {
+                    shell.config.mode = E.name;
+                    shell.gui.updateprompt()
+                } else {
+                    E.call(C)
+                }
+                shell.gui.scroll();
+                shell.gui.inputfield.value = "";
+                shell.gui.focusinput();
+                return false
+            };
+            shell.onload = function (E, D) {
+                var A = false;
+                try {
+                    if (parent.shell != shell) {
+                        var B = document.getElementById("body");
+                        B.innerHTML = "";
+                        shell = parent.shell;
+                        A = true
+                    }
+                } catch (E) {}
+                shell.gui.init();
+                if (!D && (A || document.cookie.indexOf("loggedin") != -1)) {
+                    shell.ajax.query("http://goosh.appspot.com/status?callback=shell.onload");
+                    return
+                } else {
+                    if (shell.ajax.iscontext(E)) {
+                        shell.config.user = D;
+                        var F = shell.gui.el("shelllogin");
+                        var C = shell.gui.el("shellloginparent");
+                        if (F && C) {
+                            shell.gui.outputel.removeChild(shell.gui.outputel.lastChild)
+                        }
+                    }
+                }
+                if (D && D != "guest") {
+                    shell.lib.cookie.set("loggedin", "1", 365)
+                }
+                shell.set.init()
+            };
+            shell.getquery = function () {
+                var A = "";
+                if (shell.lib.get("q")) {
+                    A = shell.lib.get("q")
+                }
+                if (window.location.hash) {
+                    A = decodeURIComponent(window.location.hash.substr(1))
+                }
+                A += " ";
+                if (A != " " && A.substr(0, 6) != "login " && A.substr(0, 4) != "set " && A.substr(0, 9) != "settings ") {
+                    shell.gui.inputfield.value = A.substr(0, A.length)
+                } else {
+                    shell.gui.inputfield.value = ""
+                }
+                shell.gui.updateprompt();
+                shell.gui.showinput();
+                shell.gui.focusinput();
+                if (shell.gui.inputfield.value != "") {
+                    shell.command()
+                }
+            };
+            if (typeof window.addEventListener !== "undefined") {
+                window.addEventListener("load", shell.onload, false)
+            } else {
+                if (typeof window.attachEvent !== "undefined") {
+                    window.attachEvent("onload", shell.onload)
+                }
+            };
+        </script>
+    </head>
+    
+    <body id="body">
+        <div id="output">
+	<p>http://cli.iitbh-acm.org/  0.2.2-beta  <script language="javascript">
+today = new Date(); 
+document.write(today.getHours(),":",today.getMinutes()," "); 
+document.write(today.getDate(),"/",today.getMonth()+1,"/",today.getFullYear());</script></p>
+<p>Welcome to IIIT Bhubaneswar's ACM Student Chapter</p>
+<p>This interface behaves similar to a UNIX shell. At our ACM Student Chapter, we try to adopt 
+technology and geekiness in everything around us. If you have trouble using this interface, we have a 
+friendlier version for you <a href="http://www.iiitbh-acm.org">here</a>. You may also launch it by entering 'startx' in the shell.</p>
+<p> * Documentation: <a href="#" target="_blank">http://cli.iiitbh-acm.org/doc/</a></p>
+        </div>
+        <div id="input">
+            <form name='f' onsubmit='return false;' class='cmdline' action=''>
+                <table class="inputtable">
+                    <tr>
+                        <td>
+                            <div id='prompt' class='less'></div>
+                        </td>
+                        <td class="inputtd">
+                            <input id='inputfield' name='q' type='text' class='cmdline' autocomplete='off' value="" />
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+        <script type="text/javascript">
+            //<!--
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+             //-->
+        </script>
+        <script type="text/javascript">
+            //<!--
+            var pageTracker = _gat._getTracker("UA-118992-4");
+            pageTracker._initData();
+            pageTracker._trackPageview();
+             //-->
+        </script>
+    </body>
+</html>
